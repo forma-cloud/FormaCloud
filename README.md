@@ -78,7 +78,7 @@ FormaCloudClariSpend Stack deleted!
 
 ## Slack Integration
 
-1. Create two Slack channels: `formacloud-cost-report` and `formacloud-saving-actions`.
+1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. You can choose your own names.
 
 2. Add FormaCloud team members to the Slack channels using Slack Connect, so they can assist with any requests.
 Members to add:
