@@ -10,24 +10,35 @@ Linux/Unix
 
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
 2. [jq](https://stedolan.github.io/jq/download/) installed.
-3. AWS credentials of your root account set:
+3. AWS default region set:
+```
+aws configure set default.region xxx
+```
+4. AWS credentials of your root account set:
 
 ```bash
 export AWS_ACCESS_KEY_ID=xxx
 export AWS_SECRET_ACCESS_KEY=xxx
 export AWS_SESSION_TOKEN=xxx
 ```
+5. Trusted access with AWS Organizations enabled:
+Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
+From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
+![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
+Click Enable trusted access. Trusted access is successfully enabled when the following banner displays:
+![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
+                    
 
 ## ClariSpend
 
 1. Contact FormaCloud support to get the following environment variables:
 
 ```bash
-export FormaCloudID=xxx  # The customer ID that syncs your account.
 export FormaCloudPrincipal=xxx  # The IAM Principal that has permission to your account.
-export FormaCloudExternalID=xxx  # The external ID that authenticates your account.
 export FormaCloudPingbackArn=xxx  # The custom resource to receive pingback.
 export FormaCloudService=xxx  # The FormaCloud service type.
+export FormaCloudID=xxx  # The customer ID that syncs your account.
+export FormaCloudExternalID=xxx  # The external ID that authenticates your account.
 ```
 
 2. To install ClariSpend, run the following command:
