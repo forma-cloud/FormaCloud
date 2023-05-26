@@ -145,6 +145,7 @@ FormaCloudOptima StackSet Deleted!
 Deleting the Stack...
 FormaCloudOptima Stack deleted!
 ```
+
 ## Slack Integration
 
 1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. You can choose your own names.
