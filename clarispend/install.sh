@@ -58,7 +58,7 @@ ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
 ParameterKey=FormaCloudService,ParameterValue=${FORMACLOUD_SERVICE} \
 ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn} \
 ParameterKey=RootAccountID,ParameterValue=${root_account_id}
-echo "Stack created!"
+echo "${stack_name} Stack created!"
 
 echo "Creating a StackSet..."
 aws cloudformation create-stack-set \
