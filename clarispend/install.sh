@@ -29,15 +29,14 @@ function stackSetOperationWait {
 
 stack_name=FormaCloudClariSpend
 root_account_id=$(aws organizations describe-organization | jq -r .Organization.MasterAccountId)
-main_region=$(aws configure get region)
 org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
 
 test -n "$FORMACLOUD_ID" || die "FORMACLOUD_ID must be provided. Please contact FormaCloud support.";
 test -n "$FORMACLOUD_PRINCIPAL" || die "FORMACLOUD_PRINCIPAL must be provided. Please contact FormaCloud support.";
 test -n "$FORMACLOUD_EXTERNALID" || die "FORMACLOUD_EXTERNALID must be provided. Please contact FormaCloud support.";
 test -n "$FORMACLOUD_PINGBACK_ARN" || die "FORMACLOUD_PINGBACK_ARN must be provided. Please contact FormaCloud support.";
+test -n "$AWS_REGION" || die "AWS_REGION must be set.";
 test -n "$root_account_id" || die "AWS root account id not found.";
-test -n "$main_region" || die "AWS default region not found.";
 test -n "$org_id" || die "AWS root organization id not found.";
 
 tmp_dir=$(mktemp -d)
@@ -75,7 +74,7 @@ echo "${stack_name} StackSet created!"
 echo "Creating StackSet instances for the member accounts..."
 operation_id="$(aws cloudformation create-stack-instances \
 --stack-set-name ${stack_name} \
---regions ${main_region} \
+--regions ${AWS_REGION} \
 --deployment-targets OrganizationalUnitIds=${org_id} \
 --operation-preferences RegionConcurrencyType=PARALLEL,MaxConcurrentPercentage=100,FailureTolerancePercentage=100 \
 --output text)"

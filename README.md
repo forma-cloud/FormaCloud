@@ -12,7 +12,7 @@ Linux/Unix
 2. [jq](https://stedolan.github.io/jq/download/) installed.
 3. AWS default region set:
 ```
-aws configure set default.region xxx
+export AWS_REGION=xxx
 ```
 4. AWS credentials of your root account set:
 
