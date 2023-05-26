@@ -35,7 +35,6 @@ test -n "$FORMACLOUD_ID" || die "FORMACLOUD_ID must be provided. Please contact 
 test -n "$FORMACLOUD_PRINCIPAL" || die "FORMACLOUD_PRINCIPAL must be provided. Please contact FormaCloud support.";
 test -n "$FORMACLOUD_EXTERNALID" || die "FORMACLOUD_EXTERNALID must be provided. Please contact FormaCloud support.";
 test -n "$FORMACLOUD_PINGBACK_ARN" || die "FORMACLOUD_PINGBACK_ARN must be provided. Please contact FormaCloud support.";
-test -n "$AWS_REGION" || die "AWS_REGION must be set.";
 test -n "$root_account_id" || die "AWS root account id not found.";
 test -n "$org_id" || die "AWS root organization id not found.";
 
