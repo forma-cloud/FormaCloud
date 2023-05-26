@@ -88,6 +88,78 @@ Deleting the Stack...
 FormaCloudClariSpend Stack deleted!
 ```
 
+## Optima
+
+1. Contact FormaCloud support to get the following environment variables:
+
+```bash
+export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
+export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
+export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
+export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
+export FORMACLOUD_EVENT_BUS_ARN=xxx  # The EventBus to receive EC2 instance events.
+```
+
+2. To install Optima, run the following command:
+
+```bash
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/install.sh)"
+```
+
+Enter the region name where the stacks will be created;
+Enter a list of regions where you want to enable Optima SavingBot;
+Enter whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts.
+
+Sample output:
+
+```
+Enter the region where the stacks will be created (e.g. us-west-2): us-east-1
+Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (true or false. [false]): 
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3047  100  3047    0     0   3210      0 --:--:-- --:--:-- --:--:--  3217
+Creating a Stack...
+...
+FormaCloudOptima Stack created!
+Creating a StackSet...
+...
+FormaCloudOptima StackSet created!
+Creating StackSet instances for the member accounts...
+...
+Waiting for the above operation to finish..................
+Operation finished:
+FormaCloudOptima StackSet instances created!
+```
+
+If you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts, please contact FormaCloud support to add FORMACLOUD_PRINCIPAL to the trust relationship of the role.
+
+3. To uninstall Optima, run the following command:
+
+```bash
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
+```
+
+Enter the region where the stacks will be deleted (e.g. us-west-2): us-east-1
+Enter a list of regions where you want to disable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+
+Sample output:
+
+```
+Enter the region where the stacks will be created (e.g. us-west-2): us-east-1
+Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+Deleting the StackSet instances for the member accounts...
+...
+Waiting for the above operation to finish...
+Operation finished:
+...
+FormaCloudOptima StackSet instances deleted!
+Deleting the StackSet...
+FormaCloudOptima StackSet Deleted!
+Deleting the Stack...
+FormaCloudOptima Stack deleted!
+```
+
 ## Slack Integration
 
 1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. You can choose your own names.
