@@ -37,11 +37,11 @@ Click Enable trusted access. Trusted access is successfully enabled when the fo
 1. Contact FormaCloud support to get the following environment variables:
 
 ```bash
-export FormaCloudPrincipal=xxx  # The IAM Principal that has permission to your account.
-export FormaCloudPingbackArn=xxx  # The custom resource to receive pingback.
-export FormaCloudService=xxx  # The FormaCloud service type.
-export FormaCloudID=xxx  # The customer ID that syncs your account.
-export FormaCloudExternalID=xxx  # The external ID that authenticates your account.
+export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
+export FORMACLOUD_PINGBACK_ARN=xxx  # The custom resource to receive pingback.
+export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
+export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
+export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
 ```
 
 2. To install ClariSpend, run the following command:
