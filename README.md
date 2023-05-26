@@ -32,7 +32,6 @@ Click Enable trusted access. Trusted access is successfully enabled when the fo
 
 ```bash
 export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
-export FORMACLOUD_PINGBACK_ARN=xxx  # The custom resource to receive pingback.
 export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
 export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
 export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.

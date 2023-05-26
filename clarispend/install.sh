@@ -34,12 +34,13 @@ org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
 test -n "$FORMACLOUD_ID" || die "FORMACLOUD_ID must be provided. Please contact FormaCloud support."
 test -n "$FORMACLOUD_PRINCIPAL" || die "FORMACLOUD_PRINCIPAL must be provided. Please contact FormaCloud support."
 test -n "$FORMACLOUD_EXTERNALID" || die "FORMACLOUD_EXTERNALID must be provided. Please contact FormaCloud support."
-test -n "$FORMACLOUD_PINGBACK_ARN" || die "FORMACLOUD_PINGBACK_ARN must be provided. Please contact FormaCloud support."
 test -n "$root_account_id" || die "AWS root account id not found."
 test -n "$org_id" || die "AWS root organization id not found."
 
 read -p "Enter the region where the stacks will be created (e.g. us-west-2): " main_region
 test -n "$main_region" || die "Invalid input: please specify a region"
+
+formacloud_pingback_arn=arn:aws:sns:${main_region}:${FORMACLOUD_PRINCIPAL}:formacloud-pingback-topic
 
 tmp_dir=$(mktemp -d)
 tmp_file=${tmp_dir}/formacloud_clarispend.yaml
@@ -54,8 +55,8 @@ aws cloudformation create-stack \
 --parameters ParameterKey=FormaCloudID,ParameterValue=${FORMACLOUD_ID} \
 ParameterKey=FormaCloudPrincipal,ParameterValue=${FORMACLOUD_PRINCIPAL} \
 ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
-ParameterKey=FormaCloudPingbackArn,ParameterValue=${FORMACLOUD_PINGBACK_ARN} \
 ParameterKey=FormaCloudService,ParameterValue=${FORMACLOUD_SERVICE} \
+ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn} \
 ParameterKey=RootAccountID,ParameterValue=${root_account_id}
 echo "Stack created!"
 
@@ -70,8 +71,8 @@ aws cloudformation create-stack-set \
 --parameters ParameterKey=FormaCloudID,ParameterValue=${FORMACLOUD_ID} \
 ParameterKey=FormaCloudPrincipal,ParameterValue=${FORMACLOUD_PRINCIPAL} \
 ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
-ParameterKey=FormaCloudPingbackArn,ParameterValue=${FORMACLOUD_PINGBACK_ARN} \
 ParameterKey=FormaCloudService,ParameterValue=${FORMACLOUD_SERVICE} \
+ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn} \
 ParameterKey=RootAccountID,ParameterValue=${root_account_id}
 echo "${stack_name} StackSet created!"
 
