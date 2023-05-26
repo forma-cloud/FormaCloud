@@ -18,16 +18,23 @@ export AWS_SECRET_ACCESS_KEY=xxx
 export AWS_SESSION_TOKEN=xxx
 ```
 
+4. Trusted access with AWS Organizations enabled:
+Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
+From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
+![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
+Click Enable trusted access. Trusted access is successfully enabled when the following banner displays:
+![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
+                    
+
 ## ClariSpend
 
 1. Contact FormaCloud support to get the following environment variables:
 
 ```bash
-export FormaCloudID=xxx  # The customer ID that syncs your account.
-export FormaCloudPrincipal=xxx  # The IAM Principal that has permission to your account.
-export FormaCloudExternalID=xxx  # The external ID that authenticates your account.
-export FormaCloudPingbackArn=xxx  # The custom resource to receive pingback.
-export FormaCloudService=xxx  # The FormaCloud service type.
+export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
+export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
+export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
+export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
 ```
 
 2. To install ClariSpend, run the following command:
@@ -35,10 +42,12 @@ export FormaCloudService=xxx  # The FormaCloud service type.
 ```bash
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/install.sh)"
 ```
+Enter the region name where the stacks will be created.
 
 Sample output:
 
 ```
+Enter the region where the stacks will be created (e.g. us-west-2): us-west-2
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  3047  100  3047    0     0   3210      0 --:--:-- --:--:-- --:--:--  3217
@@ -61,9 +70,12 @@ FormaCloudClariSpend StackSet instances created!
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/uninstall.sh)"
 ```
 
+Enter the region name where the stacks will be deleted.
+
 Sample output:
 
 ```
+Enter the region where the stacks will be deleted (e.g. us-west-2): us-west-2
 Deleting the StackSet instances for the member accounts...
 ...
 Waiting for the above operation to finish...

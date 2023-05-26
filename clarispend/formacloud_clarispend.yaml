@@ -94,6 +94,7 @@ Resources:
     Properties:
       ServiceToken: !Ref FormaCloudPingbackArn
       RootAccountID: !Ref RootAccountID
+      MainRegion: !Ref AWS::Region
       FormaCloudID: !Ref FormaCloudID
       FormaCloudService: !Ref FormaCloudService
       RoleArn: !GetAtt  FormaCloudClariSpendRole.Arn
