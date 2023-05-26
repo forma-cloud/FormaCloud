@@ -123,7 +123,7 @@ FormaCloudOptima StackSet instances created!
 3. To uninstall Optima, run the following command:
 
 ```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/uninstall.sh)"
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
 ```
 
 Enter the region where the stacks will be deleted (e.g. us-west-2): us-east-1
