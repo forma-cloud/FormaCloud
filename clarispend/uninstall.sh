@@ -6,7 +6,7 @@ yell() { echo "$0: $*" >&2; }
 die() { yell "$*"; exit 111; }
 
 function stackSetOperationWait {
-  local cmd="aws cloudformation describe-stack-set-operation --stack-set-name ${1?} --operation-id ${2?}"
+  local cmd="aws cloudformation describe-stack-set-operation  --region ${1?} --stack-set-name ${2?} --operation-id ${3?}"
   $cmd
   printf "Waiting for the above operation to finish..."
   while true; do
@@ -28,30 +28,34 @@ function stackSetOperationWait {
 
 stack_name=FormaCloudClariSpend
 root_account_id=$(aws organizations describe-organization | jq -r .Organization.MasterAccountId)
-main_region=$(aws configure get region)
 org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
 
-test -n "$root_account_id" || die "AWS root account id not found.";
-test -n "$main_region" || die "AWS default region not found.";
-test -n "$org_id" || die "AWS root organization id not found.";
+test -n "$root_account_id" || die "AWS root account id not found."
+test -n "$org_id" || die "AWS root organization id not found."
+
+read -p "Enter the region where the stacks will be deleted (e.g. us-west-2): " main_region
+test -n "$main_region" || die "Invalid input: please specify a region"
 
 echo "Deleting the StackSet instances for the member accounts..."
 operation_id="$(aws cloudformation delete-stack-instances \
+--region ${main_region} \
 --stack-set-name ${stack_name} \
 --regions ${main_region} \
 --no-retain-stacks \
 --deployment-targets OrganizationalUnitIds=${org_id} \
 --operation-preferences RegionConcurrencyType=PARALLEL,MaxConcurrentPercentage=100,FailureTolerancePercentage=100 \
 --output text)"
-stackSetOperationWait ${stack_name} "${operation_id}"
+stackSetOperationWait ${main_region} ${stack_name} ${operation_id}
 echo "${stack_name} StackSet instances deleted!"
 
 echo "Deleting the StackSet..."
 aws cloudformation delete-stack-set \
+--region ${main_region} \
 --stack-set-name ${stack_name}
 echo "${stack_name} StackSet Deleted!"
 
 echo "Deleting the Stack..."
 aws cloudformation delete-stack \
+--region ${main_region} \
 --stack-name ${stack_name}
 echo "${stack_name} Stack deleted!"

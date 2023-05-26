@@ -10,13 +10,7 @@ Linux/Unix
 
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
 2. [jq](https://stedolan.github.io/jq/download/) installed.
-3. AWS default region set:
-
-```bash
-export AWS_REGION=xxx
-```
-
-4. AWS credentials of your root account set:
+3. AWS credentials of your root account set:
 
 ```bash
 export AWS_ACCESS_KEY_ID=xxx
@@ -24,7 +18,7 @@ export AWS_SECRET_ACCESS_KEY=xxx
 export AWS_SESSION_TOKEN=xxx
 ```
 
-5. Trusted access with AWS Organizations enabled:
+4. Trusted access with AWS Organizations enabled:
 Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
 From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
@@ -49,10 +43,12 @@ export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your acco
 ```bash
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/install.sh)"
 ```
+Enter the region name where the stacks will be created.
 
 Sample output:
 
 ```
+Enter the region where the stacks will be created (e.g. us-west-2): us-west-2
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  3047  100  3047    0     0   3210      0 --:--:-- --:--:-- --:--:--  3217
@@ -75,9 +71,12 @@ FormaCloudClariSpend StackSet instances created!
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/uninstall.sh)"
 ```
 
+Enter the region name where the stacks will be deleted.
+
 Sample output:
 
 ```
+Enter the region where the stacks will be deleted (e.g. us-west-2): us-west-2
 Deleting the StackSet instances for the member accounts...
 ...
 Waiting for the above operation to finish...
