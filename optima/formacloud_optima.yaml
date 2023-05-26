@@ -92,6 +92,16 @@ Resources:
             StringEquals: 
               sts:ExternalId: !Ref FormaCloudExternalID
       Policies:
+      - PolicyName: FormaCloudCloudWatchMetricReadPolicy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - cloudwatch:Describe*
+            - cloudwatch:Get*
+            - cloudwatch:List*
+            Resource: "*"
       - PolicyName: FormaCloudBillingReadPolicy
         PolicyDocument:
           Version: 2012-10-17
