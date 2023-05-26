@@ -1,0 +1,241 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: FormaCloud Optima
+Parameters:
+  RootAccountID:
+    Description: The root account to run Optima.
+    MinLength: 1
+    Type: String
+  FormaCloudID:
+    Description: The customer ID that syncs your account.
+    MinLength: 1
+    Type: String
+  FormaCloudPrincipal:
+    Description: The IAM Principal that has permission to your account.
+    MinLength: 1
+    Type: String
+  FormaCloudExternalID:
+    Description: The external ID that authenticates your account.
+    MinLength: 1
+    Type: String
+  FormaCloudPingbackArn:
+    Description: The custom resource to receive pingback.
+    MinLength: 1
+    Type: String
+  FormaCloudService:
+    Description: The FormaCloud service type.
+    MinLength: 1
+    Type: String
+  MainRegion:
+    Description: Specify the main region where the IAM role related stacks will be created.
+    MinLength: 1
+    Type: String
+  FormaCloudEventBusArn:
+    Description: The EventBus to receive EC2 instance events.
+    MinLength: 1
+    Type: String
+  CWCrossAccountSharingRoleExists:
+    Type: String
+    AllowedValues:
+      - true
+      - false
+Conditions:
+  RegionCheck: !Equals
+    - !Ref AWS::Region
+    - !Ref MainRegion
+  CWCrossAccountSharingRoleNotExists: !Equals
+    - !Ref CWCrossAccountSharingRoleExists
+    - false
+  CWCrossAccountSharingRoleCheck: !And
+    - Condition: CWCrossAccountSharingRoleNotExists
+    - Condition: RegionCheck
+Resources:
+  CWCrossAccountSharingRole:
+    Type: AWS::IAM::Role
+    Condition: CWCrossAccountSharingRoleCheck
+    Properties:
+      Path: /
+      RoleName: CloudWatch-CrossAccountSharingRole
+      Description: Enables CloudWatch cross-account observability
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Ref FormaCloudPrincipal
+            Action:
+              - sts:AssumeRole
+      Policies:
+      - PolicyName: CloudwatchCrossAccountSharingPolicy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - cloudwatch:GetMetricData
+            Resource: "*"
+  FormaCloudOptimaRole:
+    Type: AWS::IAM::Role
+    Condition: RegionCheck
+    Properties:
+      Path: /
+      RoleName: FormaCloudOptimaRole
+      Description: IAM role to enable FormaCloud Optima
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            AWS: !Ref FormaCloudPrincipal
+          Action:
+          - sts:AssumeRole
+          Condition:
+            StringEquals: 
+              sts:ExternalId: !Ref FormaCloudExternalID
+      Policies:
+      - PolicyName: FormaCloudBillingReadPolicy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - budgets:Describe*
+            - budgets:View*
+            - ce:Get*
+            - ce:Describe*
+            - ce:List*
+            - cur:Describe*
+            - organizations:Describe*
+            - organizations:List*
+            - account:GetContactInformation
+            - iam:ListAccountAliases
+            Resource: "*"
+      - PolicyName: FormaCloudAdditionalResourceReadPolicy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - ec2:Describe*
+            - savingsplans:Describe*
+            - rds:Describe*
+            - rds:List*
+            - elasticache:List*
+            - elasticache:Describe*
+            - redshift:Describe*
+            - es:Describe*
+            - es:List*
+            - autoscaling:Describe*
+            - compute-optimizer:Get*
+            Resource: "*"
+      - PolicyName: FormaCloudAutoPilotPolicy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - ec2:AcceptReservedInstancesExchangeQuote
+            - ec2:CancelReservedInstancesListing
+            - ec2:CreateReservedInstancesListing
+            - ec2:DeleteQueuedReservedInstances
+            - ec2:ModifyReservedInstances
+            - ec2:PurchaseReservedInstancesOffering
+            - rds:PurchaseReservedDBInstancesOffering
+            - elasticache:PurchaseReservedCacheNodesOffering
+            - es:PurchaseReservedInstanceOffering
+            - redshift:PurchaseReservedNodeOffering
+            - redshift:AcceptReservedNodeExchange
+            - redshift:GetReservedNodeExchangeConfigurationOptions
+            - redshift:GetReservedNodeExchangeOfferings
+            - servicequotas:Get*
+            - servicequotas:List*
+            - servicequotas:RequestServiceQuotaIncrease
+            - support:*
+            - savingsplans:CreateSavingsPlan
+            Resource: "*"
+      - PolicyName: FormaCloudSavingBotPolicy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - ec2:StopInstances
+            - ec2:StartInstances
+            Resource: "*"
+          - Effect: Allow
+            Action:
+            - ec2:CreateTags
+            - ec2:DeleteTags
+            Resource: "*"
+            Condition:
+              ForAllValues:StringLike:
+                aws:TagKeys:
+                  - FORMACLOUD*
+                  - Name
+      - PolicyName: FormaCloudRightSizerPolicy
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - ec2:ModifyInstanceAttribute
+            Resource: "*"
+  EventBridgeIAMrole:
+    Type: AWS::IAM::Role
+    Condition: RegionCheck
+    Properties:
+      Path: /
+      RoleName: FormaCloudSavingBotRouteEventsRole
+      Description: Allows to route EC2 state-change events to FormaCloud Saving Engine
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: FormaCloudSavingBotPutEventsPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - events:PutEvents
+                Resource:
+                  - !Ref FormaCloudEventBusArn
+  FormaCloudSavingBotEventRule:
+    Type: AWS::Events::Rule
+    Properties:
+      Name: FormacloudSavingBotRouteEventsRule
+      Description: Routes EC2 state-change events to FormaCloud Saving Engine
+      EventBusName: default
+      State: ENABLED
+      EventPattern:
+        source:
+          - aws.ec2
+        detail-type: 
+          - EC2 Instance State-change Notification
+        detail:
+          state:
+            - running
+            - stopped
+            - terminated
+      Targets:
+        - Arn: !Ref FormaCloudEventBusArn
+          Id: FormaCloudDestinationBus
+          RoleArn: !Sub "arn:aws:iam::${AWS::AccountId}:role/FormaCloudSavingBotRouteEventsRole"
+  FormaCloudPingback:
+    Type: Custom::FormaCloudPingback
+    Condition: RegionCheck
+    Version: 1.0
+    Properties:
+      ServiceToken: !Ref FormaCloudPingbackArn
+      RootAccountID: !Ref RootAccountID
+      FormaCloudID: !Ref FormaCloudID
+      FormaCloudService: !Ref FormaCloudService
+      RoleArn: !GetAtt  FormaCloudOptimaRole.Arn
+Outputs:
+  FormaCloudOptimaRoleArn:
+    Condition: RegionCheck
+    Value: !GetAtt FormaCloudOptimaRole.Arn
+    Description: FormaCloud Optima Role Arn
