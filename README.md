@@ -11,9 +11,11 @@ Linux/Unix
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
 2. [jq](https://stedolan.github.io/jq/download/) installed.
 3. AWS default region set:
+
 ```bash
 export AWS_REGION=xxx
 ```
+
 4. AWS credentials of your root account set:
 
 ```bash
@@ -21,6 +23,7 @@ export AWS_ACCESS_KEY_ID=xxx
 export AWS_SECRET_ACCESS_KEY=xxx
 export AWS_SESSION_TOKEN=xxx
 ```
+
 5. Trusted access with AWS Organizations enabled:
 Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
 From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
