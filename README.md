@@ -11,7 +11,7 @@ Linux/Unix
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
 2. [jq](https://stedolan.github.io/jq/download/) installed.
 3. AWS default region set:
-```
+```bash
 export AWS_REGION=xxx
 ```
 4. AWS credentials of your root account set:
