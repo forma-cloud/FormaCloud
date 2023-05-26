@@ -120,6 +120,8 @@ Operation finished:
 FormaCloudOptima StackSet instances created!
 ```
 
+If you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts, please contact FormaCloud support to add FORMACLOUD_PRINCIPAL to the trust relationship of the role.
+
 3. To uninstall Optima, run the following command:
 
 ```bash
