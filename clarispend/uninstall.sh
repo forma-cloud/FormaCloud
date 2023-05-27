@@ -27,35 +27,38 @@ function stackSetOperationWait {
 }
 
 stack_name=FormaCloudClariSpend
-root_account_id=$(aws organizations describe-organization | jq -r .Organization.MasterAccountId)
-org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
-
-test -n "$root_account_id" || die "AWS root account id not found."
-test -n "$org_id" || die "AWS root organization id not found."
 
 read -p "Enter the region where the stacks will be deleted (e.g. us-west-2): " main_region
 test -n "$main_region" || die "Invalid input: please specify a region"
 
-echo "Deleting the StackSet instances for the member accounts..."
-operation_id="$(aws cloudformation delete-stack-instances \
---region ${main_region} \
---stack-set-name ${stack_name} \
---regions ${main_region} \
---no-retain-stacks \
---deployment-targets OrganizationalUnitIds=${org_id} \
---operation-preferences RegionConcurrencyType=PARALLEL,MaxConcurrentPercentage=100,FailureTolerancePercentage=100 \
---output text)"
-stackSetOperationWait ${main_region} ${stack_name} ${operation_id}
-echo "${stack_name} StackSet instances deleted!"
+read -p "Do you want to uninstall it for the whole organization (Y/N)? " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
 
-echo "Deleting the StackSet..."
-aws cloudformation delete-stack-set \
---region ${main_region} \
---stack-set-name ${stack_name}
-echo "${stack_name} StackSet Deleted!"
+  echo "Deleting the StackSet instances for the member accounts..."
+  operation_id="$(aws cloudformation delete-stack-instances \
+  --region ${main_region} \
+  --stack-set-name ${stack_name} \
+  --regions ${main_region} \
+  --no-retain-stacks \
+  --deployment-targets OrganizationalUnitIds=${org_id} \
+  --operation-preferences RegionConcurrencyType=PARALLEL,MaxConcurrentPercentage=100,FailureTolerancePercentage=100 \
+  --output text)"
+  stackSetOperationWait ${main_region} ${stack_name} ${operation_id}
+  echo "${stack_name} StackSet instances deleted!"
+
+  echo "Deleting the StackSet..."
+  aws cloudformation delete-stack-set \
+  --region ${main_region} \
+  --stack-set-name ${stack_name}
+  echo "${stack_name} StackSet deleted!"
+fi
 
 echo "Deleting the Stack..."
 aws cloudformation delete-stack \
 --region ${main_region} \
 --stack-name ${stack_name}
 echo "${stack_name} Stack deleted!"
+echo "Uninstallation completed."
