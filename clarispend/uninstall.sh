@@ -61,3 +61,4 @@ aws cloudformation delete-stack \
 --region ${main_region} \
 --stack-name ${stack_name}
 echo "${stack_name} Stack deleted!"
+echo "Uninstallation completed."
