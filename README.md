@@ -18,8 +18,8 @@ export AWS_SECRET_ACCESS_KEY=xxx
 export AWS_SESSION_TOKEN=xxx
 ```
 
-4. [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled (recommend).
-5. Trusted access with AWS Organizations enabled (recommend):
+4. [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled (recommended).
+5. Trusted access with AWS Organizations enabled (recommended):
 Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
 From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
