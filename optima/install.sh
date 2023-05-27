@@ -27,26 +27,37 @@ function stackSetOperationWait {
   fi
 }
 
-read -p "Enter the region where the stacks will be created (e.g. us-west-2): " main_region
-test -n "$main_region" || die "Invalid input: please specify a region where the stacks will be created"
-
-read -p "Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): " regions
-test -n "$regions" || die "Invalid input: please specify a list of regions where you want to enable Optima SavingBot"
-
-read -p "Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (true or false. [false]): " cw_cross_account_sharing_role_exists
-cw_cross_account_sharing_role_exists=${cw_cross_account_sharing_role_exists:=false}
-
-formacloud_pingback_arn=arn:aws:sns:${main_region}:${FORMACLOUD_PRINCIPAL}:formacloud-pingback-topic
-
 stack_name=FormaCloudOptima
-root_account_id=$(aws organizations describe-organization | jq -r .Organization.MasterAccountId)
-org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
+
 test -n "$FORMACLOUD_ID" || die "FORMACLOUD_ID must be provided. Please contact FormaCloud support."
 test -n "$FORMACLOUD_PRINCIPAL" || die "FORMACLOUD_PRINCIPAL must be provided. Please contact FormaCloud support."
 test -n "$FORMACLOUD_EXTERNALID" || die "FORMACLOUD_EXTERNALID must be provided. Please contact FormaCloud support."
 test -n "$FORMACLOUD_EVENT_BUS_ARN" || die "FORMACLOUD_EVENT_BUS_ARN must be provided. Please contact FormaCloud support."
-test -n "$root_account_id" || die "AWS root account id not found."
-test -n "$org_id" || die "AWS root organization id not found."
+
+read -p "Enter the region where the stacks will be created (e.g. us-west-2): " main_region
+test -n "$main_region" || die "Invalid input: please specify a region where the stacks will be created"
+
+formacloud_pingback_arn=arn:aws:sns:${main_region}:${FORMACLOUD_PRINCIPAL}:formacloud-pingback-topic
+
+read -p "Do you want to install it for the whole organization (Y/N)? " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+  root_account_id=$(aws organizations describe-organization | jq -r .Organization.MasterAccountId)
+  single_account=false
+else
+  root_account_id=$(aws sts get-caller-identity --query "Account" --output text)
+  single_account=true
+fi
+
+read -p "Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N)" -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  cw_cross_account_sharing_role_exists=false
+else
+  cw_cross_account_sharing_role_exists=true
+fi
 
 tmp_dir=$(mktemp -d)
 tmp_file=${tmp_dir}/formacloud_optima.yaml
@@ -68,6 +79,16 @@ ParameterKey=RootAccountID,ParameterValue=${root_account_id} \
 ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn} \
 ParameterKey=CWCrossAccountSharingRoleExists,ParameterValue=${cw_cross_account_sharing_role_exists}
 echo "${stack_name} Stack created!"
+
+if [ ${single_account} = true ] ; then
+  echo "Installation completed."
+  exit 1
+fi
+
+org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
+
+read -p "Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): " regions
+test -n "$regions" || die "Invalid input: please specify a list of regions where you want to enable Optima SavingBot"
 
 echo "Creating a StackSet..."
 aws cloudformation create-stack-set \
@@ -100,3 +121,4 @@ stackSetOperationWait ${main_region} ${stack_name} ${operation_id}
 echo "${stack_name} StackSet instances created!"
 
 rm -r ${tmp_dir}
+echo "Installation completed."

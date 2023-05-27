@@ -18,7 +18,8 @@ export AWS_SECRET_ACCESS_KEY=xxx
 export AWS_SESSION_TOKEN=xxx
 ```
 
-4. Trusted access with AWS Organizations enabled:
+4. [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled (recommend).
+5. Trusted access with AWS Organizations enabled (recommend):
 Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
 From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
@@ -42,12 +43,14 @@ export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your acco
 ```bash
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/install.sh)"
 ```
-Enter the region name where the stacks will be created.
+Enter the region name where the stacks will be created;
+Choose whether you want to install it for the whole organization;
 
 Sample output:
 
 ```
 Enter the region where the stacks will be created (e.g. us-west-2): us-west-2
+Do you want to install it for the whole organization (Y/N)? y
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  3047  100  3047    0     0   3210      0 --:--:-- --:--:-- --:--:--  3217
@@ -62,6 +65,7 @@ Creating StackSet instances for the member accounts...
 Waiting for the above operation to finish..................
 Operation finished:
 FormaCloudClariSpend StackSet instances created!
+Installation completed.
 ```
 
 3. To uninstall ClariSpend, run the following command:
@@ -70,12 +74,14 @@ FormaCloudClariSpend StackSet instances created!
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/uninstall.sh)"
 ```
 
-Enter the region name where the stacks will be deleted.
+Enter the region name where the stacks will be deleted;
+Choose whether you want to uninstall it for the whole organization;
 
 Sample output:
 
 ```
 Enter the region where the stacks will be deleted (e.g. us-west-2): us-west-2
+Do you want to uninstall it for the whole organization (Y/N)? y
 Deleting the StackSet instances for the member accounts...
 ...
 Waiting for the above operation to finish...
@@ -83,9 +89,10 @@ Operation finished:
 ...
 FormaCloudClariSpend StackSet instances deleted!
 Deleting the StackSet...
-FormaCloudClariSpend StackSet Deleted!
+FormaCloudClariSpend StackSet deleted!
 Deleting the Stack...
 FormaCloudClariSpend Stack deleted!
+Uninstallation completed.
 ```
 
 ## Optima
@@ -107,13 +114,15 @@ $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/Forma
 ```
 
 Enter the region name where the stacks will be created;
+Choose whether you want to install it for the whole organization;
 Enter a list of regions where you want to enable Optima SavingBot;
-Enter whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts.
+Enter whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts;
 
 Sample output:
 
 ```
 Enter the region where the stacks will be created (e.g. us-west-2): us-east-1
+Do you want to install it for the whole organization (Y/N)? y
 Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
 Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (true or false. [false]): 
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
@@ -130,6 +139,7 @@ Creating StackSet instances for the member accounts...
 Waiting for the above operation to finish..................
 Operation finished:
 FormaCloudOptima StackSet instances created!
+Installation completed.
 ```
 
 If you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts, please contact FormaCloud support to add FORMACLOUD_PRINCIPAL to the trust relationship of the role.
@@ -140,14 +150,16 @@ If you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
 ```
 
-Enter the region where the stacks will be deleted (e.g. us-west-2): us-east-1
-Enter a list of regions where you want to disable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+Enter the region name where the stacks will be deleted;
+Choose whether you want to uninstall it for the whole organization;
+Enter a list of regions where you want to disable Optima SavingBot;
 
 Sample output:
 
 ```
-Enter the region where the stacks will be created (e.g. us-west-2): us-east-1
-Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+Enter the region where the stacks will be deleted (e.g. us-west-2): us-east-1
+Do you want to uninstall it for the whole organization (Y/N)? y
+Enter a list of regions where you want to disable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
 Deleting the StackSet instances for the member accounts...
 ...
 Waiting for the above operation to finish...
@@ -155,9 +167,10 @@ Operation finished:
 ...
 FormaCloudOptima StackSet instances deleted!
 Deleting the StackSet...
-FormaCloudOptima StackSet Deleted!
+FormaCloudOptima StackSet deleted!
 Deleting the Stack...
 FormaCloudOptima Stack deleted!
+Uninstallation completed.
 ```
 
 ## Slack Integration
