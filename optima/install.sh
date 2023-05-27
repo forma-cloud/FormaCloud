@@ -50,7 +50,7 @@ else
   single_account=true
 fi
 
-read -p "Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N)" -n 1 -r
+read -p "Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N) " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
