@@ -59,9 +59,6 @@ Enter the region where the stacks will be created (e.g. us-west-2): us-east-1
 Do you want to install it for the whole organization (Y/N)? y
 Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
 Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N) n 
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  3047  100  3047    0     0   3210      0 --:--:-- --:--:-- --:--:--  3217
 Creating a Stack...
 ...
 FormaCloudOptima Stack created!
@@ -104,9 +101,6 @@ Sample output:
 ```
 Enter the region where the stacks will be created (e.g. us-west-2): us-west-2
 Do you want to install it for the whole organization (Y/N)? y
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  3047  100  3047    0     0   3210      0 --:--:-- --:--:-- --:--:--  3217
 Creating a Stack...
 ...
 Stack created!
