@@ -51,7 +51,7 @@ fi
 
 tmp_dir=$(mktemp -d)
 tmp_file=${tmp_dir}/formacloud_clarispend.yaml
-curl -o ${tmp_file} https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/formacloud_clarispend.yaml
+curl -fsSL -o ${tmp_file} https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/formacloud_clarispend.yaml
 
 echo "Creating a Stack..."
 aws cloudformation create-stack \
