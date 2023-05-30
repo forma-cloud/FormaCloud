@@ -27,83 +27,17 @@ Click Enable trusted access. Trusted access is successfully enabled when the fo
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
                     
 
-## ClariSpend
+## AWS Installation
+
+### Install Optima
 
 1. Contact FormaCloud support to get the following environment variables:
 
 ```bash
 export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
-export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
 export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
 export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
-```
-
-2. To install ClariSpend, run the following command:
-
-```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/install.sh)"
-```
-Enter the region name where the stacks will be created;
-Choose whether you want to install it for the whole organization;
-
-Sample output:
-
-```
-Enter the region where the stacks will be created (e.g. us-west-2): us-west-2
-Do you want to install it for the whole organization (Y/N)? y
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  3047  100  3047    0     0   3210      0 --:--:-- --:--:-- --:--:--  3217
-Creating a Stack...
-...
-Stack created!
-Creating a StackSet...
-...
-FormaCloudClariSpend StackSet created!
-Creating StackSet instances for the member accounts...
-...
-Waiting for the above operation to finish..................
-Operation finished:
-FormaCloudClariSpend StackSet instances created!
-Installation completed.
-```
-
-3. To uninstall ClariSpend, run the following command:
-
-```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/uninstall.sh)"
-```
-
-Enter the region name where the stacks will be deleted;
-Choose whether you want to uninstall it for the whole organization;
-
-Sample output:
-
-```
-Enter the region where the stacks will be deleted (e.g. us-west-2): us-west-2
-Do you want to uninstall it for the whole organization (Y/N)? y
-Deleting the StackSet instances for the member accounts...
-...
-Waiting for the above operation to finish...
-Operation finished:
-...
-FormaCloudClariSpend StackSet instances deleted!
-Deleting the StackSet...
-FormaCloudClariSpend StackSet deleted!
-Deleting the Stack...
-FormaCloudClariSpend Stack deleted!
-Uninstallation completed.
-```
-
-## Optima
-
-1. Contact FormaCloud support to get the following environment variables:
-
-```bash
-export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
 export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
-export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
-export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
 export FORMACLOUD_EVENT_BUS_ARN=xxx  # The EventBus to receive EC2 instance events.
 ```
 
@@ -144,33 +78,47 @@ Installation completed.
 
 If you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts, please contact FormaCloud support to add FORMACLOUD_PRINCIPAL to the trust relationship of the role.
 
-3. To uninstall Optima, run the following command:
+### Install ClariSpend
+
+ClariSpend is a subset of Optima. If you have already installed Optima, you don't need to install ClariSpend again.
+
+1. Contact FormaCloud support to get the following environment variables:
 
 ```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
+export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
+export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
+export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
+export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
 ```
 
-Enter the region name where the stacks will be deleted;
-Choose whether you want to uninstall it for the whole organization;
-Enter a list of regions where you want to disable Optima SavingBot;
+2. To install ClariSpend, run the following command:
+
+```bash
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/install.sh)"
+```
+Enter the region name where the stacks will be created;
+Choose whether you want to install it for the whole organization;
 
 Sample output:
 
 ```
-Enter the region where the stacks will be deleted (e.g. us-west-2): us-east-1
-Do you want to uninstall it for the whole organization (Y/N)? y
-Enter a list of regions where you want to disable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
-Deleting the StackSet instances for the member accounts...
+Enter the region where the stacks will be created (e.g. us-west-2): us-west-2
+Do you want to install it for the whole organization (Y/N)? y
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  3047  100  3047    0     0   3210      0 --:--:-- --:--:-- --:--:--  3217
+Creating a Stack...
 ...
-Waiting for the above operation to finish...
+Stack created!
+Creating a StackSet...
+...
+FormaCloudClariSpend StackSet created!
+Creating StackSet instances for the member accounts...
+...
+Waiting for the above operation to finish..................
 Operation finished:
-...
-FormaCloudOptima StackSet instances deleted!
-Deleting the StackSet...
-FormaCloudOptima StackSet deleted!
-Deleting the Stack...
-FormaCloudOptima Stack deleted!
-Uninstallation completed.
+FormaCloudClariSpend StackSet instances created!
+Installation completed.
 ```
 
 ## Slack Integration
@@ -199,3 +147,64 @@ andi@formacloud.io
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/d0a9aa1c-dd8d-489f-9aad-d2341ecf9ab5)
 7. Click "Add this app to a channel" then add the two FormaCloud channels respectively.
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/1ba7f5a7-564b-4121-9e91-c0e8fc3a7a6c)
+
+## Uninstallation
+
+### Uninstall Optima
+To uninstall Optima, run the following command:
+
+```bash
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
+```
+
+Enter the region name where the stacks will be deleted;
+Choose whether you want to uninstall it for the whole organization;
+Enter a list of regions where you want to disable Optima SavingBot;
+
+Sample output:
+
+```
+Enter the region where the stacks will be deleted (e.g. us-west-2): us-east-1
+Do you want to uninstall it for the whole organization (Y/N)? y
+Enter a list of regions where you want to disable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+Deleting the StackSet instances for the member accounts...
+...
+Waiting for the above operation to finish...
+Operation finished:
+...
+FormaCloudOptima StackSet instances deleted!
+Deleting the StackSet...
+FormaCloudOptima StackSet deleted!
+Deleting the Stack...
+FormaCloudOptima Stack deleted!
+Uninstallation completed.
+```
+
+### Uninstall ClariSpend
+
+To uninstall ClariSpend, run the following command:
+
+```bash
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/uninstall.sh)"
+```
+
+Enter the region name where the stacks will be deleted;
+Choose whether you want to uninstall it for the whole organization;
+
+Sample output:
+
+```
+Enter the region where the stacks will be deleted (e.g. us-west-2): us-west-2
+Do you want to uninstall it for the whole organization (Y/N)? y
+Deleting the StackSet instances for the member accounts...
+...
+Waiting for the above operation to finish...
+Operation finished:
+...
+FormaCloudClariSpend StackSet instances deleted!
+Deleting the StackSet...
+FormaCloudClariSpend StackSet deleted!
+Deleting the Stack...
+FormaCloudClariSpend Stack deleted!
+Uninstallation completed.
+```
