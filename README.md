@@ -24,7 +24,7 @@ From the navigation pane, choose StackSets. If trusted access is disabled, a ban
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
 Click Enable trusted access. Trusted access is successfully enabled when the following banner displays:
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
-6. (Required by Optima) [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace.            
+6. (Required by Optima) [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This needs to be done using the root account in the organization management account. 
 
 ## AWS Installation
 
