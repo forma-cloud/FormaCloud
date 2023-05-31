@@ -16,7 +16,6 @@ Linux/Unix
 export AWS_ACCESS_KEY_ID=xxx
 export AWS_SECRET_ACCESS_KEY=xxx
 export AWS_SESSION_TOKEN=xxx
-```   
 
 4. [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled (recommended).
 5. Trusted access with AWS Organizations enabled (recommended):
