@@ -77,7 +77,7 @@ If you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts
 
 ### Install ClariSpend
 
-ClariSpend is a subset of Optima. If you have already installed Optima, you don't need to install ClariSpend again.
+ClariSpend is a subset of Optima. **If you have already installed Optima, you don't need to install ClariSpend again.**
 
 1. Contact FormaCloud support to get the following environment variables:
 
@@ -141,6 +141,12 @@ andi@formacloud.io
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/d0a9aa1c-dd8d-489f-9aad-d2341ecf9ab5)
 7. Click "Add this app to a channel" then add the two FormaCloud channels respectively.
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/1ba7f5a7-564b-4121-9e91-c0e8fc3a7a6c)
+
+## AWS Marketplace Subscription
+We are excited to inform you that our product is now available on the AWS Marketplace. This is a fantastic opportunity for you to access our products and services directly from the AWS Marketplace platform, and we ask you to please spend 2 minutes to subscribe.
+By subscribing to us on the AWS Marketplace, **you are not going to pay anything extra**. In the near future, we will contact you to showcase our Optima solution, which will give you an effortless saving, and only if you agreed to install that solution will we charge a flat 10% from the savings we achieved.
+
+Please follow this guide [Join us on AWS Marketplace](https://formacloud.slab.com/posts/join-us-on-aws-marketplace-b616x0cd) to subscribe [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/prodview-3upfi5nbbcxxw) on the AWS Marketplace.
 
 ## Uninstallation
 
