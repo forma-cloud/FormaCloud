@@ -145,7 +145,7 @@ andi@formacloud.io
 ## AWS Marketplace Subscription
 
 Our product is now available on the AWS Marketplace. Please spend 2 minutes to subscribe.
-By subscribing to us on the AWS Marketplace, **you are not going to pay anything extra**. In the near future, we will contact you to showcase our Optima solution, which will give you an effortless saving, and only if you agreed to install that solution will we charge a flat 10% from the savings we achieved.
+By subscribing to us on the AWS Marketplace, **you are not going to pay anything extra**. Only if you reviewed and agreed to start the Optima solution will we charge a flat 10% from the savings we achieved.
 
 Please follow this guide [Join us on AWS Marketplace](https://formacloud.slab.com/posts/join-us-on-aws-marketplace-b616x0cd) to subscribe [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/prodview-3upfi5nbbcxxw) on the AWS Marketplace.
 
