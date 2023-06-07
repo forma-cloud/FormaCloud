@@ -1,10 +1,14 @@
 # FormaCloud Installation Guide
 
-Cloud Savings Simplified.
+Forma Cloud is a Silicon Valley company that offers an effortless way to dramatically cut your AWS costs.  We have increased cash efficiency for numerous businesses. Our product portfolio includes:
+
+- ClariSpend (free): gives daily bill analysis and 7-day trend data by accounts and services. Through reports and anomaly detections, you will be able to understand and control utilization.
+
+- Optima: automates instance downsizing, buying and selling of reserved instances, savings plans management and shutting down unused instances (all-in-one saving approach). It provides real-time notifications for saving opportunities as well as easy-to-access action buttons. In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
 
 ## Supported Platforms
 
-Linux/Unix
+Linux / MacOS
 
 ## Prerequisites
 
@@ -129,6 +133,7 @@ hannah@formacloud.io
 gideon@formacloud.io
 shazil@formacloud.io
 andi@formacloud.io
+hori@formacloud.io
 ```
 
 3. Visit https://slack.formacloud.io or https://api.formacloud.io/slack/install/limited_scopes link to see the installation page.
