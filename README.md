@@ -51,21 +51,21 @@ export FORMACLOUD_EVENT_BUS_ARN=xxx  # The EventBus to receive EC2 instance even
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/install.sh)"
 ```
 
-Enter the region name where the stacks will be created;
+Enter a list of regions where you want to enable Optima. The first one will be used as the main region to create IAM role related resources;
 Choose whether you want to install it for the whole organization;
-Enter a list of regions where you want to enable Optima SavingBot;
 Choose whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts;
 
 Sample output:
 
 ```
-Enter the region where the stacks will be created (e.g. us-west-2): us-east-1
+Enter a list of regions where you want to enable Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
 Do you want to install it for the whole organization (Y/N)? y
-Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
 Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N) n 
-Creating a Stack...
+Creating a Stack in us-west-2...
 ...
-FormaCloudOptima Stack created!
+Creating a Stack in us-east-1...
+...
+FormaCloudOptima Stacks created!
 Creating a StackSet...
 ...
 FormaCloudOptima StackSet created!
@@ -163,16 +163,14 @@ To uninstall Optima, run the following command:
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
 ```
 
-Enter the region name where the stacks will be deleted;
+Enter a list of regions where you want to disable Optima.
 Choose whether you want to uninstall it for the whole organization;
-Enter a list of regions where you want to disable Optima SavingBot;
 
 Sample output:
 
 ```
-Enter the region where the stacks will be deleted (e.g. us-west-2): us-east-1
+Enter a list of regions where you want to disable Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
 Do you want to uninstall it for the whole organization (Y/N)? y
-Enter a list of regions where you want to disable Optima SavingBot (e.g. us-west-2 us-east-1): us-west-2 us-east-1
 Deleting the StackSet instances for the member accounts...
 ...
 Waiting for the above operation to finish...
@@ -181,8 +179,9 @@ Operation finished:
 FormaCloudOptima StackSet instances deleted!
 Deleting the StackSet...
 FormaCloudOptima StackSet deleted!
-Deleting the Stack...
-FormaCloudOptima Stack deleted!
+Deleting the Stack in us-west-2...
+Deleting the Stack in us-east-1...
+FormaCloudOptima Stacks deleted!
 Uninstallation completed.
 ```
 

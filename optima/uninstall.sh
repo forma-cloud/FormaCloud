@@ -28,17 +28,16 @@ function stackSetOperationWait {
 
 stack_name=FormaCloudOptima
 
-read -p "Enter the region where the stacks will be deleted (e.g. us-west-2): " main_region
-test -n "$main_region" || die "Invalid input: please specify a region where the stacks will be deleted"
+read -p "Enter a list of regions where you want to disable Optima (e.g. us-west-2 us-east-1): " regions
+test -n "$regions" || die "Invalid input: please specify a list of regions where you want to disable Optima SavingBot"
+regions_arr=($regions)
+main_region=${regions_arr[0]}
 
 read -p "Do you want to uninstall it for the whole organization (Y/N)? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
   org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
-
-  read -p "Enter a list of regions where you want to disable Optima SavingBot (e.g. us-west-2 us-east-1): " regions
-  test -n "$regions" || die "Invalid input: please specify a list of regions where you want to disable Optima SavingBot"
 
   echo "Deleting the StackSet instances for the member accounts..."
   operation_id="$(aws cloudformation delete-stack-instances \
@@ -59,9 +58,12 @@ then
   echo "${stack_name} StackSet deleted!"
 fi
 
-echo "Deleting the Stack..."
-aws cloudformation delete-stack \
---region ${main_region} \
---stack-name ${stack_name}
-echo "${stack_name} Stack deleted!"
+for region in "${regions_arr[@]}"; do
+  echo "Deleting the Stack in ${region}..."
+  aws cloudformation delete-stack \
+  --region ${region} \
+  --stack-name ${stack_name}
+done
+echo "${stack_name} Stacks deleted!"
+
 echo "Uninstallation completed."

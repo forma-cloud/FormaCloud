@@ -34,9 +34,12 @@ test -n "$FORMACLOUD_PRINCIPAL" || die "FORMACLOUD_PRINCIPAL must be provided. P
 test -n "$FORMACLOUD_EXTERNALID" || die "FORMACLOUD_EXTERNALID must be provided. Please contact FormaCloud support."
 test -n "$FORMACLOUD_EVENT_BUS_ARN" || die "FORMACLOUD_EVENT_BUS_ARN must be provided. Please contact FormaCloud support."
 
-read -p "Enter the region where the stacks will be created (e.g. us-west-2): " main_region
-test -n "$main_region" || die "Invalid input: please specify a region where the stacks will be created"
+read -p "Enter a list of regions where you want to enable Optima (e.g. us-west-2 us-east-1): " regions
+test -n "$regions" || die "Invalid input: please specify a list of regions where you want to enable Optima"
 
+regions_arr=($regions)
+regions_str=${regions// /;}
+main_region=${regions_arr[0]}
 formacloud_pingback_arn=arn:aws:sns:${main_region}:${FORMACLOUD_PRINCIPAL}:formacloud-pingback-topic
 
 read -p "Do you want to install it for the whole organization (Y/N)? " -n 1 -r
@@ -63,22 +66,25 @@ tmp_dir=$(mktemp -d)
 tmp_file=${tmp_dir}/formacloud_optima.yaml
 curl -fsSL -o ${tmp_file} https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/formacloud_optima.yaml
 
-echo "Creating a Stack..."
-aws cloudformation create-stack \
---region ${main_region} \
---stack-name ${stack_name} \
---capabilities CAPABILITY_NAMED_IAM \
---template-body file://${tmp_file} \
---parameters ParameterKey=FormaCloudID,ParameterValue=${FORMACLOUD_ID} \
-ParameterKey=FormaCloudPrincipal,ParameterValue=${FORMACLOUD_PRINCIPAL} \
-ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
-ParameterKey=FormaCloudService,ParameterValue=${FORMACLOUD_SERVICE} \
-ParameterKey=FormaCloudEventBusArn,ParameterValue=${FORMACLOUD_EVENT_BUS_ARN} \
-ParameterKey=MainRegion,ParameterValue=${main_region} \
-ParameterKey=RootAccountID,ParameterValue=${root_account_id} \
-ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn} \
-ParameterKey=CWCrossAccountSharingRoleExists,ParameterValue=${cw_cross_account_sharing_role_exists}
-echo "${stack_name} Stack created!"
+for region in "${regions_arr[@]}"; do
+  echo "Creating a Stack in ${region}..."
+  aws cloudformation create-stack \
+  --region ${region} \
+  --stack-name ${stack_name} \
+  --capabilities CAPABILITY_NAMED_IAM \
+  --template-body file://${tmp_file} \
+  --parameters ParameterKey=FormaCloudID,ParameterValue=${FORMACLOUD_ID} \
+  ParameterKey=FormaCloudPrincipal,ParameterValue=${FORMACLOUD_PRINCIPAL} \
+  ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
+  ParameterKey=FormaCloudService,ParameterValue=${FORMACLOUD_SERVICE} \
+  ParameterKey=FormaCloudEventBusArn,ParameterValue=${FORMACLOUD_EVENT_BUS_ARN} \
+  ParameterKey=MainRegion,ParameterValue=${main_region} \
+  ParameterKey=Regions,ParameterValue=${regions_str} \
+  ParameterKey=RootAccountID,ParameterValue=${root_account_id} \
+  ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn} \
+  ParameterKey=CWCrossAccountSharingRoleExists,ParameterValue=${cw_cross_account_sharing_role_exists}
+done
+echo "${stack_name} Stacks created!"
 
 if [ ${single_account} = true ] ; then
   echo "Installation completed."
@@ -86,9 +92,6 @@ if [ ${single_account} = true ] ; then
 fi
 
 org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
-
-read -p "Enter a list of regions where you want to enable Optima SavingBot (e.g. us-west-2 us-east-1): " regions
-test -n "$regions" || die "Invalid input: please specify a list of regions where you want to enable Optima SavingBot"
 
 echo "Creating a StackSet..."
 aws cloudformation create-stack-set \
@@ -105,6 +108,7 @@ ParameterKey=FormaCloudService,ParameterValue=${FORMACLOUD_SERVICE} \
 ParameterKey=FormaCloudEventBusArn,ParameterValue=${FORMACLOUD_EVENT_BUS_ARN} \
 ParameterKey=RootAccountID,ParameterValue=${root_account_id} \
 ParameterKey=MainRegion,ParameterValue=${main_region} \
+ParameterKey=Regions,ParameterValue=${regions_str} \
 ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn} \
 ParameterKey=CWCrossAccountSharingRoleExists,ParameterValue=${cw_cross_account_sharing_role_exists}
 echo "${stack_name} StackSet created!"

@@ -29,6 +29,10 @@ Parameters:
     Description: Specify the main region where the IAM role related stacks will be created.
     MinLength: 1
     Type: String
+  Regions:
+    Description: Specify the regions that will be managed by Optima.
+    MinLength: 1
+    Type: String
   FormaCloudEventBusArn:
     Description: The EventBus to receive EC2 instance events.
     MinLength: 1
@@ -240,11 +244,12 @@ Resources:
     Version: 1.0
     Properties:
       ServiceToken: !Ref FormaCloudPingbackArn
-      RootAccountID: !Ref RootAccountID
-      MainRegion: !Ref AWS::Region
       FormaCloudID: !Ref FormaCloudID
       FormaCloudService: !Ref FormaCloudService
-      RoleArn: !GetAtt  FormaCloudOptimaRole.Arn
+      AccountID: !Ref AWS::AccountId
+      RootAccountID: !Ref RootAccountID
+      MainRegion: !Ref AWS::Region
+      Regions: !Ref Regions
 Outputs:
   FormaCloudOptimaRoleArn:
     Condition: RegionCheck
