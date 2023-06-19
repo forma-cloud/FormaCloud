@@ -93,11 +93,11 @@ Resources:
     Version: 1.0
     Properties:
       ServiceToken: !Ref FormaCloudPingbackArn
-      RootAccountID: !Ref RootAccountID
-      MainRegion: !Ref AWS::Region
       FormaCloudID: !Ref FormaCloudID
       FormaCloudService: !Ref FormaCloudService
-      RoleArn: !GetAtt  FormaCloudClariSpendRole.Arn
+      AccountID: !Ref AWS::AccountId
+      RootAccountID: !Ref RootAccountID
+      MainRegion: !Ref AWS::Region
 Outputs:
   FormaCloudClariSpendRoleArn:
     Value: !GetAtt FormaCloudClariSpendRole.Arn
