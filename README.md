@@ -130,8 +130,6 @@ shan@formacloud.io
 weiqi@formacloud.io
 jiaqi@formacloud.io
 hannah@formacloud.io
-gideon@formacloud.io
-shazil@formacloud.io
 andi@formacloud.io
 hori@formacloud.io
 ```
