@@ -31,9 +31,14 @@ Click Enable trusted access. Trusted access is successfully enabled when the fo
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
 6. (Required by Optima) [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This needs to be done using the root account in the organization management account.
 
-## AWS Installation
+## AWS Marketplace Subscription
 
-### Install Optima
+Our product is now available on the AWS Marketplace. Please spend 2 minutes to subscribe.
+By subscribing to us on the AWS Marketplace, **you are not going to pay anything extra**. Only if you reviewed and agreed to start the Optima solution will we charge a flat 10% from the savings we achieved.
+
+Please follow this guide [Join us on AWS Marketplace](https://formacloud.slab.com/posts/join-us-on-aws-marketplace-b616x0cd) to subscribe [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/prodview-3upfi5nbbcxxw) on the AWS Marketplace.
+
+## AWS Installation
 
 1. Contact FormaCloud support to get the following environment variables:
 
@@ -77,47 +82,7 @@ FormaCloudOptima StackSet instances created!
 Installation completed.
 ```
 
-If you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts, please contact FormaCloud support to add FORMACLOUD_PRINCIPAL to the trust relationship of the role.
-
-### Install ClariSpend
-
-ClariSpend is a subset of Optima. **If you have already installed Optima, you don't need to install ClariSpend again.**
-
-1. Contact FormaCloud support to get the following environment variables:
-
-```bash
-export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
-export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
-export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
-export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
-```
-
-2. To install ClariSpend, run the following command:
-
-```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/clarispend/install.sh)"
-```
-Enter the region name where the stacks will be created;
-Choose whether you want to install it for the whole organization;
-
-Sample output:
-
-```
-Enter the region where the stacks will be created (e.g. us-west-2): us-west-2
-Do you want to install it for the whole organization (Y/N)? y
-Creating a Stack...
-...
-Stack created!
-Creating a StackSet...
-...
-FormaCloudClariSpend StackSet created!
-Creating StackSet instances for the member accounts...
-...
-Waiting for the above operation to finish..................
-Operation finished:
-FormaCloudClariSpend StackSet instances created!
-Installation completed.
-```
+If you already have `CloudWatch-CrossAccountSharingRole` IAM role in your accounts, please add FORMACLOUD_PRINCIPAL to the trust relationship of the role or contact FormaCloud support if you need help.
 
 ## Slack Integration
 
@@ -145,12 +110,6 @@ hori@formacloud.io
 7. Click "Add this app to a channel" then add the two FormaCloud channels respectively.
 ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/1ba7f5a7-564b-4121-9e91-c0e8fc3a7a6c)
 
-## AWS Marketplace Subscription
-
-Our product is now available on the AWS Marketplace. Please spend 2 minutes to subscribe.
-By subscribing to us on the AWS Marketplace, **you are not going to pay anything extra**. Only if you reviewed and agreed to start the Optima solution will we charge a flat 10% from the savings we achieved.
-
-Please follow this guide [Join us on AWS Marketplace](https://formacloud.slab.com/posts/join-us-on-aws-marketplace-b616x0cd) to subscribe [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/prodview-3upfi5nbbcxxw) on the AWS Marketplace.
 
 ## Uninstallation
 
