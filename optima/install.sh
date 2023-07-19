@@ -42,7 +42,7 @@ regions_str=${regions// /;}
 main_region=${regions_arr[0]}
 formacloud_pingback_arn=arn:aws:sns:${main_region}:${FORMACLOUD_PRINCIPAL}:formacloud-pingback-topic
 
-read -p "Do you want to install it for the whole organization (Y/N)? " -n 1 -r
+read -p "Do you want to connect the whole organization (Y/N)? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
@@ -87,7 +87,7 @@ done
 echo "${stack_name} Stacks created!"
 
 if [ ${single_account} = true ] ; then
-  echo "Installation completed."
+  echo "Connection completed."
   exit 1
 fi
 
@@ -125,4 +125,4 @@ stackSetOperationWait ${main_region} ${stack_name} ${operation_id}
 echo "${stack_name} StackSet instances created!"
 
 rm -r ${tmp_dir}
-echo "Installation completed."
+echo "Connection completed."

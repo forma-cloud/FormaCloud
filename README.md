@@ -1,10 +1,10 @@
-# FormaCloud Installation Guide
+# Forma Cloud Connection Guide
 
-Forma Cloud is a Silicon Valley company that offers an effortless way to dramatically cut your AWS costs. We have increased cash efficiency for numerous businesses. Our product portfolio includes:
+Our Al-powered product discovers unnecessary AWS cloud compute resources and eliminates them - an otherwise manual and time intensive process that is an inefficient use of human attention. We free up engineering teams to focus on what matters most: building stuff. Our product includes the following components:
 
-- ClariSpend: gives daily bill analysis and 7-day trend data by accounts and services. Through reports and anomaly detections, you will be able to understand and control utilization. It will be enabled once you have installed Optima.
+- ClariSpend: provides daily bill analysis and 7-day trend data by accounts and services. We also detect aberrations in your AWS usage and through our comprehensive reporting, you will be able to understand and control your AWS utilization.
 
-- Optima: automates instance downsizing, buying and selling of reserved instances, savings plans management and shutting down unused instances (all-in-one saving approach). It provides real-time notifications for saving opportunities as well as easy-to-access action buttons. In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
+- Optima: automates instance downsizing, buying and selling of reserved instances, manages your savings plans, and shuts down unused instances. We provide real-time notifications for saving opportunities as well as easy-to-access action buttons directly within Slack. In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
 
 ## Supported Platforms
 
@@ -33,12 +33,11 @@ export AWS_SESSION_TOKEN=xxx
 
 ## AWS Marketplace Subscription
 
-Our product is now available on the AWS Marketplace. Please spend 2 minutes to subscribe.
-By subscribing to us on the AWS Marketplace, **you are not going to pay anything extra**. Only if you reviewed and agreed to start the Optima solution will we charge a flat 10% from the savings we achieved.
+Subscribing on our AWS Marketplace page will complete the contracting process and allow us to begin rendering services for you.
 
 Please follow this guide [Join us on AWS Marketplace](https://formacloud.slab.com/posts/join-us-on-aws-marketplace-b616x0cd) to subscribe [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/prodview-3upfi5nbbcxxw) on the AWS Marketplace.
 
-## AWS Installation
+## AWS Account Connection
 
 1. Contact FormaCloud support to get the following environment variables:
 
@@ -50,21 +49,21 @@ export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
 export FORMACLOUD_EVENT_BUS_ARN=xxx  # The EventBus to receive EC2 instance events.
 ```
 
-2. To install Optima, run the following command:
+2. To connect your AWS accounts, run the following command:
 
 ```bash
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/install.sh)"
 ```
 
 Enter a list of regions where you want to enable Optima. The first one will be used as the main region to create IAM role related resources;
-Choose whether you want to install it for the whole organization;
+Choose whether you want to connect the whole organization;
 Choose whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts;
 
 Sample output:
 
 ```
-Enter a list of regions where you want to enable Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
-Do you want to install it for the whole organization (Y/N)? y
+Enter a list of regions where you want to connect Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+Do you want to connect the whole organization (Y/N)? y
 Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N) n
 Creating a Stack in us-west-2...
 ...
@@ -111,22 +110,22 @@ hori@formacloud.io
 7. Click "Add this app to a channel" then add the two FormaCloud channels respectively.
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/1ba7f5a7-564b-4121-9e91-c0e8fc3a7a6c)
 
-## Uninstallation
+## Product Removal
 
-To uninstall Optima, run the following command:
+To stop Optima services, run the following command:
 
 ```bash
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
 ```
 
 Enter a list of regions where you want to disable Optima.
-Choose whether you want to uninstall it for the whole organization;
+Choose whether you want to remove it for the whole organization;
 
 Sample output:
 
 ```
 Enter a list of regions where you want to disable Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
-Do you want to uninstall it for the whole organization (Y/N)? y
+Do you want to remove it for the whole organization (Y/N)? y
 Deleting the StackSet instances for the member accounts...
 ...
 Waiting for the above operation to finish...
