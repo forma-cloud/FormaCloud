@@ -33,7 +33,7 @@ test -n "$regions" || die "Invalid input: please specify a list of regions where
 regions_arr=($regions)
 main_region=${regions_arr[0]}
 
-read -p "Do you want to uninstall it for the whole organization (Y/N)? " -n 1 -r
+read -p "Do you want to remove it for the whole organization (Y/N)? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
@@ -66,4 +66,4 @@ for region in "${regions_arr[@]}"; do
 done
 echo "${stack_name} Stacks deleted!"
 
-echo "Uninstallation completed."
+echo "Removal completed."
