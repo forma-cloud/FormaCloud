@@ -63,8 +63,9 @@ else
 fi
 
 tmp_dir=$(mktemp -d)
-tmp_file=${tmp_dir}/formacloud_optima.yaml
-curl -fsSL -o ${tmp_file} https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/formacloud_optima.yaml
+# tmp_file=${tmp_dir}/formacloud_optima.yaml
+tmp_file=formacloud_optima.yaml
+# curl -fsSL -o ${tmp_file} https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/formacloud_optima.yaml
 
 for region in "${regions_arr[@]}"; do
   echo "Creating a Stack in ${region}..."
@@ -86,7 +87,10 @@ for region in "${regions_arr[@]}"; do
 done
 echo "${stack_name} Stacks created!"
 
+
 if [ ${single_account} = true ] ; then
+  echo "Enabling compute optimizer..."
+  aws compute-optimizer update-enrollment-status --status Active
   echo "Connection completed."
   exit 1
 fi
@@ -123,6 +127,9 @@ operation_id="$(aws cloudformation create-stack-instances \
 --output text)"
 stackSetOperationWait ${main_region} ${stack_name} ${operation_id}
 echo "${stack_name} StackSet instances created!"
+
+echo "Enabling compute optimizer for the organization..."
+aws compute-optimizer update-enrollment-status --status Active --include-member-accounts
 
 rm -r ${tmp_dir}
 echo "Connection completed."
