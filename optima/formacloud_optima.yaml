@@ -155,6 +155,7 @@ Resources:
             - ec2:PurchaseReservedInstancesOffering
             - rds:PurchaseReservedDBInstancesOffering
             - elasticache:PurchaseReservedCacheNodesOffering
+            - elasticache:AddTagsToResource
             - es:PurchaseReservedInstanceOffering
             - redshift:PurchaseReservedNodeOffering
             - redshift:AcceptReservedNodeExchange
