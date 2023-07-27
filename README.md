@@ -78,7 +78,11 @@ Creating StackSet instances for the member accounts...
 Waiting for the above operation to finish..................
 Operation finished:
 FormaCloudOptima StackSet instances created!
-Installation completed.
+Enabling compute optimizer for the organization...
+{
+    "status": "Active"
+}
+Connection completed.
 ```
 
 If you already have `CloudWatch-CrossAccountSharingRole` IAM role in your accounts, please add FORMACLOUD_PRINCIPAL to the trust relationship of the role or contact FormaCloud support if you need help.
