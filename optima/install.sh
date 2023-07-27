@@ -76,7 +76,6 @@ for region in "${regions_arr[@]}"; do
   --parameters ParameterKey=FormaCloudID,ParameterValue=${FORMACLOUD_ID} \
   ParameterKey=FormaCloudPrincipal,ParameterValue=${FORMACLOUD_PRINCIPAL} \
   ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
-  ParameterKey=FormaCloudService,ParameterValue=${FORMACLOUD_SERVICE} \
   ParameterKey=FormaCloudEventBusArn,ParameterValue=${FORMACLOUD_EVENT_BUS_ARN} \
   ParameterKey=MainRegion,ParameterValue=${main_region} \
   ParameterKey=Regions,ParameterValue=${regions_str} \
@@ -107,7 +106,6 @@ aws cloudformation create-stack-set \
 --parameters ParameterKey=FormaCloudID,ParameterValue=${FORMACLOUD_ID} \
 ParameterKey=FormaCloudPrincipal,ParameterValue=${FORMACLOUD_PRINCIPAL} \
 ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
-ParameterKey=FormaCloudService,ParameterValue=${FORMACLOUD_SERVICE} \
 ParameterKey=FormaCloudEventBusArn,ParameterValue=${FORMACLOUD_EVENT_BUS_ARN} \
 ParameterKey=RootAccountID,ParameterValue=${root_account_id} \
 ParameterKey=MainRegion,ParameterValue=${main_region} \

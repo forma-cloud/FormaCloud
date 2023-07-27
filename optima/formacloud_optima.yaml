@@ -21,10 +21,6 @@ Parameters:
     Description: The custom resource to receive pingback.
     MinLength: 1
     Type: String
-  FormaCloudService:
-    Description: The FormaCloud service type.
-    MinLength: 1
-    Type: String
   MainRegion:
     Description: Specify the main region where the IAM role related stacks will be created.
     MinLength: 1
@@ -244,9 +240,9 @@ Resources:
     Condition: RegionCheck
     Version: 1.0
     Properties:
+      FormaCloudService: Optima
       ServiceToken: !Ref FormaCloudPingbackArn
       FormaCloudID: !Ref FormaCloudID
-      FormaCloudService: !Ref FormaCloudService
       AccountID: !Ref AWS::AccountId
       RootAccountID: !Ref RootAccountID
       MainRegion: !Ref AWS::Region
