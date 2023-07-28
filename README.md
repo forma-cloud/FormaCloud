@@ -26,13 +26,10 @@ Intelligently purchases and sells reserved instances and manages savings plans o
 Provides daily billing, utilization, and savings reports with weekly trend data, grouped by accounts and services. ClariSpend also detects and highlights irregularities in your AWS usage to help you detect anomalies and react early. Through our comprehensive reporting, you will be able to understand and stay up to date on your AWS usage and how much we are saving for you.
 
 ### Saving Bot
-Intelligently shuts down and rightsizes EC2 instances with human supervision. Saving bot monitors your EC2 instances and notifies you of under-utilized ones that eat away your cloud costs. The Saving bot can be configured to automatically shut down some instances, while only acting after human confirmation on instances that are risky to shut down. Rightsizing adjusts the instance type to match the usage, without harming or altering the instance's content.
+Intelligently shuts down and rightsizes EC2 instances with human supervision. Saving bot monitors your EC2 instances and notifies you of under-utilized ones that eat away your cloud costs. Saving bot can be configured to automatically shut down some instances, while only acting after human confirmation on instances that are risky to shut down. Rightsizing adjusts the instance type to match the usage, without harming or altering the instance's content.
 
 ### Infra Copilot (Coming soon)
-A chatbot enabled by generative AI that offers capabilities beyond those of ChatGPT. With our custom-tuned AI models, as well as access to your data, Copilot can:
-   1. Answer questions with text and visualizations specific to your cloud usage. You don't need to extract, process, and upload your own data as when dealing with ChatGPT; all you need to do is ask Copilot.
-   2. Answer questions about other AWS services like S3 that are specific to your accounts.
-   3. Draft code templates and create GitHub pull requests for you.
+A chatbot enabled by generative AI that offers capabilities beyond those of ChatGPT.
 """
 
 
