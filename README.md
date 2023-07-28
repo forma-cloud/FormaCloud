@@ -87,6 +87,18 @@ Connection completed.
 
 If you already have `CloudWatch-CrossAccountSharingRole` IAM role in your accounts, please add FORMACLOUD_PRINCIPAL to the trust relationship of the role or contact FormaCloud support if you need help.
 
+### Enable hourly data in Cost Explorer
+
+To get access to hourly usage data in AWS Cost Explorer and improve our prediction accuracy, you can enable hourly data in AWS following these steps:
+- login to AWS console with billing account
+- go to Cost Explorer service
+- choose "Preferences" in the left sidebar
+- check "Hourly and Resource Level Data" box and click Save button
+
+Hourly usage data costs $0.0072 per month for each EC2 instance. For example, if you have 100 EC2 instances, the monthly cost will be $0.72. You can find more details [here](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/#Data_Transfer_pricing).
+
+![image](https://github.com/forma-cloud/FormaCloud/assets/116232923/19d58c2a-1d9e-4fa9-ac24-7bceb9709fbe)
+
 ## Slack Integration
 
 1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. You can choose your own names.
