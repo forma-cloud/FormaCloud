@@ -95,6 +95,8 @@ To get access to accurate cost & usage data, you can enable hourly data in AWS f
 - choose "Preferences" in the left sidebar
 - check "Hourly and Resource Leve Data" box and click Save button
 
+![image](https://github.com/forma-cloud/FormaCloud/assets/116232923/19d58c2a-1d9e-4fa9-ac24-7bceb9709fbe)
+
 ## Slack Integration
 
 1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. You can choose your own names.
