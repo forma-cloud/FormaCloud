@@ -1,8 +1,10 @@
 ## Table of Contents
 - [Introduction](#introduction)
-- [Components](#components)
+- [Four pillars of Optima](#pillars-of-optima)
+  - [Autopilot](#autopilot)
   - [ClariSpend](#clarispend)
-  - [Optima](#optima)
+  - [Saving Bot](#saving-bot)
+  - [Infra Copilot](#infra-copilot)
 - [Supported Platforms](#supported-platforms)
 - [Prerequisites](#prerequisites)
 - [AWS Marketplace Subscription](#aws-marketplace-subscription)
@@ -10,17 +12,29 @@
 - [Slack Integration](#slack-integration)
 - [Product Removal](#product-removal)
 
+  
 ## Introduction
 
-Our AI-powered product discovers unnecessary AWS cloud compute resources and eliminates them - an otherwise manual and time intensive process that is an inefficient use of human attention. We free up engineering teams to focus on what matters most: building stuff. 
+Our AI-powered product - Optima - discovers unnecessary AWS cloud compute resources and eliminates them—an otherwise manual and time-intensive process that requires a continuous and inefficient use of human attention. We free up engineering teams to focus on what matters most: building the product. Optima can reduce your cloud costs by automating instance rightsizing, buying and selling of reserved instances, managing your savings plans, and shutting down unused instances intelligently. Optima acts on real-time saving opportunities and provides easy-to-access actionable notifications directly within Slack. (Support for other platforms is coming soon). In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
 
-## Components
+## Pillars of Optima
+
+### Autopilot
+Intelligently purchases and sells reserved instances and manages savings plans on your behalf by monitoring and forecasting your usage. Unlike AWS recommendations, Autopilot keeps track of RI transactions and updates quickly based on the latest information. Autopilot also takes both savings plans and reserved instances into account when determining the optimal action, a feature not currently available in AWS.
 
 ### ClariSpend
-Provides daily bill analysis and 7-day trend data by accounts and services. We also detect aberrations in your AWS usage and through our comprehensive reporting, you will be able to understand and control your AWS utilization.
+Provides daily billing, utilization, and savings reports with weekly trend data, grouped by accounts and services. ClariSpend also detects and highlights irregularities in your AWS usage to help you detect anomalies and react early. Through our comprehensive reporting, you will be able to understand and stay up to date on your AWS usage and how much we are saving for you.
 
-### Optima
-Automates instance downsizing, buying and selling of reserved instances, manages your savings plans, and shuts down unused instances. We provide real-time notifications for saving opportunities as well as easy-to-access action buttons directly within Slack. In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
+### Saving Bot
+Intelligently shuts down and rightsizes EC2 instances with human supervision. Saving bot monitors your EC2 instances and notifies you of under-utilized ones that eat away your cloud costs. The Saving bot can be configured to automatically shut down some instances, while only acting after human confirmation on instances that are risky to shut down. Rightsizing adjusts the instance type to match the usage, without harming or altering the instance's content.
+
+### Infra Copilot (Coming soon)
+A chatbot enabled by generative AI that offers capabilities beyond those of ChatGPT. With our custom-tuned AI models, as well as access to your data, Copilot can:
+   1. Answer questions with text and visualizations specific to your cloud usage. You don't need to extract, process, and upload your own data as when dealing with ChatGPT; all you need to do is ask Copilot.
+   2. Answer questions about other AWS services like S3 that are specific to your accounts.
+   3. Draft code templates and create GitHub pull requests for you.
+"""
+
 
 ## Supported Platforms
 
@@ -28,9 +42,10 @@ Linux / MacOS
 
 ## Prerequisites
 
-1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
-2. [jq](https://stedolan.github.io/jq/download/) installed.
-3. AWS credentials of your root account set:
+1. A MacOS or Linus machine to excute installation.
+2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed on said machine.
+3. [jq](https://stedolan.github.io/jq/download/) installed on said machine.
+4. AWS credentials of your root account set:
 
 ```bash
 export AWS_ACCESS_KEY_ID=xxx
@@ -38,14 +53,20 @@ export AWS_SECRET_ACCESS_KEY=xxx
 export AWS_SESSION_TOKEN=xxx
 ```
 
-4. [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled (recommended).
-5. Trusted access with AWS Organizations enabled (recommended):
+5. [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled (recommended).
+6. Trusted access with AWS Organizations enabled (recommended):
+   
    Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
    From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
+
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
+   
+   
    Click Enable trusted access. Trusted access is successfully enabled when the following banner displays:
+   
+   
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
-6. (Required by Optima) [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This needs to be done using the root account in the organization management account.
+7. [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This needs to be done using the root account in the organization management account (required).
 
 ## AWS Marketplace Subscription
 
@@ -71,9 +92,9 @@ export FORMACLOUD_EVENT_BUS_ARN=xxx  # The EventBus to receive EC2 instance even
 $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/install.sh)"
 ```
 
-Enter a list of regions where you want to enable Optima. The first one will be used as the main region to create IAM role related resources;
-Choose whether you want to connect the whole organization;
-Choose whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts;
+Enter a list of regions where you want to enable Optima. The first one will be used as the main region to create IAM role related resources.
+Choose whether you want to connect the whole organization.
+Choose whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts.
 
 Sample output:
 
@@ -105,7 +126,7 @@ If you already have `CloudWatch-CrossAccountSharingRole` IAM role in your accoun
 
 ## Slack Integration
 
-1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. You can choose your own names.
+1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. Feel free to be creative.
 
 2. Add FormaCloud team members to the Slack channels using Slack Connect, so they can assist with any requests.
    Members to add:
