@@ -89,11 +89,11 @@ If you already have `CloudWatch-CrossAccountSharingRole` IAM role in your accoun
 
 ### Enable hourly data in Cost Explorer
 
-To get access to accurate cost & usage data, you can enable hourly data in AWS following these steps:
+To get access to hourly usage data in AWS Cost Explorer and improve our prediction accuracy, you can enable hourly data in AWS following these steps:
 - login to AWS console with billing account
 - go to Cost Explorer service
 - choose "Preferences" in the left sidebar
-- check "Hourly and Resource Leve Data" box and click Save button
+- check "Hourly and Resource Level Data" box and click Save button
 
 ![image](https://github.com/forma-cloud/FormaCloud/assets/116232923/19d58c2a-1d9e-4fa9-ac24-7bceb9709fbe)
 
