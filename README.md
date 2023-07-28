@@ -87,6 +87,14 @@ Connection completed.
 
 If you already have `CloudWatch-CrossAccountSharingRole` IAM role in your accounts, please add FORMACLOUD_PRINCIPAL to the trust relationship of the role or contact FormaCloud support if you need help.
 
+### Enable hourly data in Cost Explorer
+
+To get access to accurate cost & usage data, you can enable hourly data in AWS following these steps:
+- login to AWS console with billing account
+- go to Cost Explorer service
+- choose "Preferences" in the left sidebar
+- check "Hourly and Resource Leve Data" box and click Save button
+
 ## Slack Integration
 
 1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. You can choose your own names.
