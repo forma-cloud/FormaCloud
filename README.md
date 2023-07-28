@@ -95,6 +95,8 @@ To get access to hourly usage data in AWS Cost Explorer and improve our predicti
 - choose "Preferences" in the left sidebar
 - check "Hourly and Resource Level Data" box and click Save button
 
+Hourly usage data costs $0.0072 per month for each EC2 instance. For example, if you have 100 EC2 instances, the monthly cost will be $0.72. You can find more details [here](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/#Data_Transfer_pricing).
+
 ![image](https://github.com/forma-cloud/FormaCloud/assets/116232923/19d58c2a-1d9e-4fa9-ac24-7bceb9709fbe)
 
 ## Slack Integration
