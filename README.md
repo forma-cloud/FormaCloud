@@ -30,7 +30,6 @@ Intelligently shuts down and rightsizes EC2 instances with human supervision. Sa
 
 ### Infra Copilot (Coming soon)
 A chatbot enabled by generative AI that offers capabilities beyond those of ChatGPT.
-"""
 
 
 ## Supported Platforms
