@@ -1,10 +1,26 @@
-# Forma Cloud Connection Guide
+## Table of Contents
+- [Introduction](#introduction)
+- [Components](#components)
+  - [ClariSpend](#clarispend)
+  - [Optima](#optima)
+- [Supported Platforms](#supported-platforms)
+- [Prerequisites](#prerequisites)
+- [AWS Marketplace Subscription](#aws-marketplace-subscription)
+- [AWS Account Connection](#aws-account-connection)
+- [Slack Integration](#slack-integration)
+- [Product Removal](#product-removal)
 
-Our Al-powered product discovers unnecessary AWS cloud compute resources and eliminates them - an otherwise manual and time intensive process that is an inefficient use of human attention. We free up engineering teams to focus on what matters most: building stuff. Our product includes the following components:
+## Introduction
 
-- ClariSpend: provides daily bill analysis and 7-day trend data by accounts and services. We also detect aberrations in your AWS usage and through our comprehensive reporting, you will be able to understand and control your AWS utilization.
+Our AI-powered product discovers unnecessary AWS cloud compute resources and eliminates them - an otherwise manual and time intensive process that is an inefficient use of human attention. We free up engineering teams to focus on what matters most: building stuff. 
 
-- Optima: automates instance downsizing, buying and selling of reserved instances, manages your savings plans, and shuts down unused instances. We provide real-time notifications for saving opportunities as well as easy-to-access action buttons directly within Slack. In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
+## Components
+
+### ClariSpend
+Provides daily bill analysis and 7-day trend data by accounts and services. We also detect aberrations in your AWS usage and through our comprehensive reporting, you will be able to understand and control your AWS utilization.
+
+### Optima
+Automates instance downsizing, buying and selling of reserved instances, manages your savings plans, and shuts down unused instances. We provide real-time notifications for saving opportunities as well as easy-to-access action buttons directly within Slack. In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
 
 ## Supported Platforms
 
@@ -123,7 +139,7 @@ $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/Forma
 ```
 
 Enter a list of regions where you want to disable Optima.
-Choose whether you want to remove it for the whole organization;
+Choose whether you want to remove it for the whole organization.
 
 Sample output:
 
