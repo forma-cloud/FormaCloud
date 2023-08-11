@@ -107,7 +107,9 @@ done
 echo "${stack_name} Stacks created!"
 
 if ! $FULL_ORGANIZATION; then
-  echo "Installation completed."
+  echo "Enabling compute optimizer..."
+  aws compute-optimizer update-enrollment-status --status Active
+  echo "Connection completed."
   exit 0
 fi
 
@@ -143,5 +145,8 @@ operation_id="$(aws cloudformation create-stack-instances \
 stackSetOperationWait "$main_region" "$stack_name" "$operation_id"
 echo "${stack_name} StackSet instances created!"
 
+echo "Enabling compute optimizer for the organization..."
+aws compute-optimizer update-enrollment-status --status Active --include-member-accounts
+
 trap 'rm -rf -- "$tmp_dir"' EXIT
-echo "Installation completed."
+echo "Connection completed."
