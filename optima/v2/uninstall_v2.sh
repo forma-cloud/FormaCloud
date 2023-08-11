@@ -49,7 +49,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-test -n "$REGIONS" || die "Invalid input: please specify a list of regions where you want to disable Optima SavingBot"
+test -n "$REGIONS" || die "Invalid input: please specify a list of regions where you want to disable Optima"
 main_region=${REGIONS[0]}
 
 stack_name=FormaCloudOptima
@@ -84,4 +84,4 @@ for region in "${REGIONS[@]}"; do
 done
 echo "${stack_name} Stacks deleted!"
 
-echo "Uninstallation completed."
+echo "Removal completed."
