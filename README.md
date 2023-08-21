@@ -85,7 +85,7 @@ export FORMACLOUD_EVENT_BUS_ARN=xxx  # The EventBus to receive EC2 instance even
 2. To connect your AWS accounts, run the following command:
 
 ```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/install.sh)"
 ```
 
 Enter a list of regions where you want to enable Optima. The first one will be used as the main region to create IAM role related resources.
@@ -164,7 +164,7 @@ hori@formacloud.io
 To stop Optima services, run the following command:
 
 ```bash
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/uninstall.sh)"
 ```
 
 Enter a list of regions where you want to disable Optima.
