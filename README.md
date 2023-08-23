@@ -15,12 +15,12 @@
   
 ## Introduction
 
-Our AI-powered product - Optima - discovers unnecessary AWS cloud compute resources and eliminates them—an otherwise manual and time-intensive process that requires a continuous and inefficient use of human attention. We free up engineering teams to focus on what matters most: building the product. Optima can reduce your cloud costs by automating instance rightsizing, buying and selling of reserved instances, managing your savings plans, and shutting down unused instances intelligently. Optima acts on real-time saving opportunities and provides easy-to-access actionable notifications directly within Slack. (Support for other platforms is coming soon). In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
+Cloud optimization can be a time and resource consuming process. Our AI-powered product - Optima - discovers unnecessary AWS spending and eliminates them. We free up your engineering team to focus on what matters most: building the product. Optima automates instance rightsizing, reserved instances trading, savings plans managing, and intelligently shutting down unused instances. Optima acts on real-time saving opportunities and provides easy-to-access actionable notifications directly within Slack. (Support for other platforms is coming soon). In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
 
 ## Pillars of Optima
 
 ### Autopilot
-Intelligently purchases and sells reserved instances and manages savings plans on your behalf by monitoring and forecasting your usage. Unlike AWS recommendations, Autopilot keeps track of RI transactions and updates quickly based on the latest information. Autopilot also takes both savings plans and reserved instances into account when determining the optimal action, a feature not currently available in AWS.
+Intelligently trades reserved instances and manages savings plans on your behalf by monitoring and forecasting your usage. Unlike AWS recommendations, Autopilot keeps track of RI transactions and updates quickly based on the latest information. Autopilot also takes both savings plans and reserved instances into account when determining the optimal action, a feature not currently available in AWS.
 
 ### ClariSpend
 Provides daily billing, utilization, and savings reports with weekly trend data, grouped by accounts and services. ClariSpend also detects and highlights irregularities in your AWS usage to help you detect anomalies and react early. Through our comprehensive reporting, you will be able to understand and stay up to date on your AWS usage and how much we are saving for you.
@@ -31,38 +31,33 @@ Intelligently shuts down and rightsizes EC2 instances with human supervision. Sa
 ### Infra Copilot (Coming soon)
 A chatbot enabled by generative AI that offers capabilities beyond those of ChatGPT.
 
+## Integrating Optima with your AWS organization
 
-## Supported Platforms
+### Stage 0: Before we start
 
-Linux / MacOS
+Have the following handy:
 
-## Prerequisites
+1. Access to your organization's management account credentials and management console login
+2. A terminal to run [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+   * A MacOS or Linux terminal with [jq](https://stedolan.github.io/jq/download/) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
+   * [AWS CloudShell](https://aws.amazon.com/cloudshell/).
+3. A technical memeber of your team to review the process (recommended).
 
-1. A MacOS or Linus machine to excute installation.
-2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed on said machine.
-3. [jq](https://stedolan.github.io/jq/download/) installed on said machine.
-4. AWS credentials of your root account set:
-
-```bash
-export AWS_ACCESS_KEY_ID=xxx
-export AWS_SECRET_ACCESS_KEY=xxx
-export AWS_SESSION_TOKEN=xxx
-```
-
-5. [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled (recommended).
-6. Trusted access with AWS Organizations enabled (recommended):
+### Stage 1: Prepare your AWS organization:
+1. Enable [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled. <details style="display: inline-block;"><summary>Why do we need this?</summary>
    
-   Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
-   From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
+   This is the content that was hidden and will be displayed when you click on the "Click to expand!" text.
+   
+   </details>
 
-   ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
+2. Enable trusted access with AWS Organization   
+   * Sign in to AWS as an administrator of the management account at https://console.aws.amazon.com/
+   * Open the AWS CloudFormation console. ![image](image.png)
+   * From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
+   ![image](image-1.png) ![image](image-2.png)
    
-   
-   Click Enable trusted access. Trusted access is successfully enabled when the following banner displays:
-   
-   
-   ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
-7. [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This needs to be done using the root account in the organization management account (required).
+   * Click Enable trusted access. a success banner will show:![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
+3. [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This needs to be done using the root account in the organization management account (required).
 
 ## AWS Marketplace Subscription
 
