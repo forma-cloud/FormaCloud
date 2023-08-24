@@ -248,6 +248,7 @@ Resources:
       MainRegion: !Ref AWS::Region
       Regions: !Ref Regions
       FormaCloudExternalID: !Ref FormaCloudExternalID
+      Version: v1.3
 Outputs:
   FormaCloudOptimaRoleArn:
     Condition: RegionCheck
