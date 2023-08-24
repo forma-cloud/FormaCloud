@@ -134,6 +134,7 @@ Resources:
             - redshift:Describe*
             - es:Describe*
             - es:List*
+            - memorydb:Describe*
             - autoscaling:Describe*
             - compute-optimizer:Get*
             Resource: "*"
@@ -157,11 +158,13 @@ Resources:
             - redshift:AcceptReservedNodeExchange
             - redshift:GetReservedNodeExchangeConfigurationOptions
             - redshift:GetReservedNodeExchangeOfferings
+            - memorydb:PurchaseReservedNodesOffering
+            - memorydb:TagResource
             - servicequotas:Get*
             - servicequotas:List*
             - servicequotas:RequestServiceQuotaIncrease
             - support:*
-            - savingsplans:CreateSavingsPlan
+            - savingsplans:*
             Resource: "*"
       - PolicyName: FormaCloudSavingBotPolicy
         PolicyDocument:
