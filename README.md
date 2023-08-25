@@ -63,15 +63,7 @@ Have the following handy:
       aws sts get-caller-identity
       ```
       
-6. Check if you have this IAM role:
-   ```
-   CloudWatch-CrossAccountSharingRole
-   ``` 
-   by running
-   ```
-   aws iam list-roles | grep CloudWatch-CrossAccountSharingRole
-   ```
-   If details about this role are returned, you have it.
+
 
 
 ### Stage 1: AWS account preparations:
@@ -129,7 +121,7 @@ To subscribe to [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/
 
 5. The script will ask if you wish to connect the entire organization. If you decline, Optima will only save for your root account.
 
-6. The script will prompt you whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts. Respond accordingly with knowledge from [Stage 0](#stage-0-before-we-start).
+6. The script will prompt you whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts. Check if you have this role in one of your memember accounts.
 
 Sample interaction:
 
