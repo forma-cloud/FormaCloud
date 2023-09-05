@@ -6,7 +6,7 @@
   - [Autopilot](#autopilot)
   - [ClariSpend](#clarispend)
   - [Saving Bot](#saving-bot)
-  - [FAI (Coming soon)](<#fai-coming-soon>)
+  - [FAI (Coming soon)](#fai-coming-soon)
 - [Integrating Optima with your AWS organization](#integrating-optima-with-your-aws-organization)
   - [Stage 0: Before we start](#stage-0-before-we-start)
   - [Stage 1: AWS account preparations](#stage-1-aws-account-preparations)
@@ -47,7 +47,7 @@ Have the following handy:
 
 2. A technical member of your team to review the process (strongly recommended)
 
-3. Contact [Forma Cloud support](support@formacloud.ai) to get the following environment variables:
+3. Contact [Forma Cloud support](mailto:support@formacloud.ai) to get the following environment variables:
 
    ```bash
    export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
@@ -108,7 +108,7 @@ To subscribe to [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/
 
 1. Ready your terminal or Cloud Shell for running AWS CLI from [Stage 0](#stage-0-before-we-start).
 
-2. Export environment variables you got from [Forma Cloud support(support@formacloud.ai)] from [Stage 0](#stage-0-before-we-start).
+2. Export environment variables you got from [Forma Cloud support(mailto:support@formacloud.ai)] from [Stage 0](#stage-0-before-we-start).
 
 3. To connect your AWS accounts, run the following command. Feel free to review it first.
 
@@ -148,7 +148,7 @@ Enabling compute optimizer for the organization...
 Connection completed.
 ```
 
-7. If the connection fails, please remove it by following the 'Product Removal' section before attempting to connect again. You can also contact [Forma Cloud support](support@formacloud.ai) for guidance.
+7. If the connection fails, please remove it by following the 'Product Removal' section before attempting to connect again. You can also contact [Forma Cloud support](mailto:support@formacloud.ai) for guidance.
 
 ## Stage 4: Slack Integration
 
