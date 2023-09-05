@@ -6,7 +6,7 @@
   - [Autopilot](#autopilot)
   - [ClariSpend](#clarispend)
   - [Saving Bot](#saving-bot)
-  - [FAI (Coming soon)](<#fai-(coming-soon)>)
+  - [FAI (Coming soon)](<#fai-coming-soon>)
 - [Integrating Optima with your AWS organization](#integrating-optima-with-your-aws-organization)
   - [Stage 0: Before we start](#stage-0-before-we-start)
   - [Stage 1: AWS account preparations](#stage-1-aws-account-preparations)
