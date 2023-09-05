@@ -1,11 +1,12 @@
 ## Table of Contents
+
 - [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Pillars of Optima](#pillars-of-optima)
   - [Autopilot](#autopilot)
   - [ClariSpend](#clarispend)
   - [Saving Bot](#saving-bot)
-  - [FAI (Coming soon)](#fai-(coming-soon))
+  - [FAI (Coming soon)](<#fai-(coming-soon)>)
 - [Integrating Optima with your AWS organization](#integrating-optima-with-your-aws-organization)
   - [Stage 0: Before we start](#stage-0-before-we-start)
   - [Stage 1: AWS account preparations](#stage-1-aws-account-preparations)
@@ -14,7 +15,6 @@
   - [Stage 4: Slack Integration](#stage-4-slack-integration)
   - [Product Removal](#product-removal)
 
-
 ## Introduction
 
 Cloud optimization can be a time-consuming and resource-intensive process. Our AI-powered product - Optima - discovers unnecessary AWS spending and eliminates it. We free up your engineering team to focus on what matters most: building the product. Optima automates instance rightsizing, reserved instances trading, savings plans managing, and intelligently shutting down unused instances. Optima identifies savings opportunities in real-time and provides easy-to-access actionable notifications directly within Slack (Support for other platforms like Teams and Discord is coming soon). In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
@@ -22,15 +22,19 @@ Cloud optimization can be a time-consuming and resource-intensive process. Our A
 ## Pillars of Optima
 
 ### Autopilot
+
 Autopilot trades reserved instances and manages savings plans on your behalf by monitoring and forecasting your usage. Unlike AWS's recommendations, Autopilot actively tracks RI transactions and updates based on the most recent data. Autopilot also takes both savings plans and reserved instances into account when determining the optimal action, a feature not currently available in AWS.
 
 ### ClariSpend
+
 ClariSpend provides daily billing, utilization, and savings reports, as well as weekly trend data. The reports are grouped by accounts and services. ClariSpend also detects and highlights irregularities in your AWS usage to help you detect anomalies and react early. Through our comprehensive reporting, you will be able to understand and stay up to date on your AWS usage and how much we are saving for you.
 
 ### Saving Bot
+
 Saving Bot helps you shut down and rightsize EC2 instances. Saving bot monitors your EC2 instances and notifies you of under-utilized ones that eat away your cloud costs. Saving bot can be configured to automatically shut down some instances, while only acting after human confirmation on instances that are risky to shut down. Rightsizing adjusts the instance type to match the usage, without affecting or altering the instance's content.
 
 ### FAI (Coming soon)
+
 A collection of AI assistants that offer capabilities beyond those of ChatGPT.
 
 ## Integrating Optima with your AWS organization
@@ -53,51 +57,46 @@ Have the following handy:
    ```
 
 4. A terminal to run [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html). You can use one of the following methods:
-   * A MacOS or Linux terminal with [jq](https://stedolan.github.io/jq/download/) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
-   * Start [AWS CloudShell](https://aws.amazon.com/cloudshell/) from your management account.
+
+   - A MacOS or Linux terminal with [jq](https://stedolan.github.io/jq/download/) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
+   - Start [AWS CloudShell](https://aws.amazon.com/cloudshell/) from your management account.
 
 5. Please authenticate your local terminal with your management account credentials if you are not using CloudShell:
-   * [How to authenticate CLI.]("https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-user.html)
-   * You can check if you are authenticated by running the following command. If the "Account" displayed matches your management account, you are good to go.
-      ```bash
-      aws sts get-caller-identity
-      ```
-      
-
-
+   - [How to authenticate CLI.]("https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-user.html)
+   - You can check if you are authenticated by running the following command. If the "Account" displayed matches your management account, you are good to go.
+     ```bash
+     aws sts get-caller-identity
+     ```
 
 ### Stage 1: AWS account preparations:
 
-1. Enable [AWS Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html). 
- 
-2. Enable trusted access with AWS Organization   
-   * Sign into AWS console as an administrator of the management account at https://console.aws.amazon.com/
-   * Open the AWS CloudFormation console. 
-      
-      ![image](assets/cloudformation.png)
-   * From the navigation pane on the left, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
-      
-      ![image](assets/stacksets.png) ![image](assets/trustedaccess.png)
-   
-   * Click "Enable trusted access". A success banner will show.
-      
-      ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
-3. [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This is the only way we can sell Reserved Instances on your behalf when you don't need them. This needs to be done using the root account in the organization management account. 
+1. Enable [AWS Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html).
+
+2. Enable trusted access with AWS Organization
+
+   - Sign into AWS console as an administrator of the management account at https://console.aws.amazon.com/
+   - Open the AWS CloudFormation console.
+     ![image](assets/cloudformation.png)
+   - From the navigation pane on the left, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
+
+     ![image](assets/stacksets.png) ![image](assets/trustedaccess.png)
+
+   - Click "Enable trusted access". A success banner will show.
+     ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
+
+3. [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This is the only way we can sell Reserved Instances on your behalf when you don't need them. This needs to be done using the root account in the organization management account.
 
 4. Enable hourly usage data in AWS Cost Explorer. This feature greatly improves our prediction accuracy for you at a low cost. Hourly usage data costs $0.0072 per month for each EC2 instance. For example, if you have 100 EC2 instances, the monthly cost will be $0.72. You can find more details [here](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/#Data_Transfer_pricing).
 
-   * Sign into AWS console as an administrator of the management account at https://console.aws.amazon.com/.
-   * Go to Cost Explorer.
-      
-      ![image](assets/costexplorer.png)
-   * From the navigation pane on the left, go to Preferences.
-      
-      ![image](assets/costexplorer_pref.png)
-   
-   * Check "Hourly and Resource Level Data" and click Save.
-      
-      ![image](assets/hourlydata.png)
+   - Sign into AWS console as an administrator of the management account at https://console.aws.amazon.com/.
+   - Go to Cost Explorer.
+     ![image](assets/costexplorer.png)
+   - From the navigation pane on the left, go to Preferences.
 
+     ![image](assets/costexplorer_pref.png)
+
+   - Check "Hourly and Resource Level Data" and click Save.
+     ![image](assets/hourlydata.png)
 
 ## Stage 2: AWS Marketplace Subscription
 
@@ -125,30 +124,31 @@ To subscribe to [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/
 
 Sample interaction:
 
-   ```
-   Enter a list of regions where you want to connect Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
-   Do you want to connect the whole organization (Y/N)? y
-   Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N) n
-   Creating a Stack in us-west-2...
-   ...
-   Creating a Stack in us-east-1...
-   ...
-   FormaCloudOptima Stacks created!
-   Creating a StackSet...
-   ...
-   FormaCloudOptima StackSet created!
-   Creating StackSet instances for the member accounts...
-   ...
-   Waiting for the above operation to finish..................
-   Operation finished:
-   FormaCloudOptima StackSet instances created!
-   Enabling compute optimizer for the organization...
-   {
-      "status": "Active"
-   }
-   Connection completed.
-   ```
-7. If the installation fails, please uninstall it by following the 'Product Removal' section before attempting to install again. You can also contact [Forma Cloud support](support@formacloud.ai) for guidance.
+```
+Enter a list of regions where you want to connect Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+Do you want to connect the whole organization (Y/N)? y
+Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N) n
+Creating a Stack in us-west-2...
+...
+Creating a Stack in us-east-1...
+...
+FormaCloudOptima Stacks created!
+Creating a StackSet...
+...
+FormaCloudOptima StackSet created!
+Creating StackSet instances for the member accounts...
+...
+Waiting for the above operation to finish..................
+Operation finished:
+FormaCloudOptima StackSet instances created!
+Enabling compute optimizer for the organization...
+{
+   "status": "Active"
+}
+Connection completed.
+```
+
+7. If the connection fails, please remove it by following the 'Product Removal' section before attempting to connect again. You can also contact [Forma Cloud support](support@formacloud.ai) for guidance.
 
 ## Stage 4: Slack Integration
 
@@ -174,7 +174,6 @@ Sample interaction:
 
 5. After the installation, go to Apps in Slack.
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/079a3637-4f1f-4f97-bbfe-9aedf84fce57)
-   
 6. Click on the app name on the top left of this page.
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/d0a9aa1c-dd8d-489f-9aad-d2341ecf9ab5)
 
@@ -183,15 +182,15 @@ Sample interaction:
 
 ## Product Removal
 
-1. To stop Optima services or prepare for re-install, run the following command:
+1. To stop Optima services or prepare for re-connection, run the following command:
 
    ```bash
    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/aws_remove.sh)"
    ```
 
-2. Enter a list of regions where you want to disable Optima; this is the same process as during installation.
+2. Enter a list of regions where you want to disable Optima; this is the same process as during connection.
 
-3. Choose whether you want to remove Optima for the entire organization; this is the same as the installation.
+3. Choose whether you want to remove Optima for the entire organization; this is the same as the connection.
 
 Sample output:
 
