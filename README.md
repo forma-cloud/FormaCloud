@@ -1,177 +1,197 @@
 ## Table of Contents
-
+- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
-- [Four pillars of Optima](#pillars-of-optima)
+- [Pillars of Optima](#pillars-of-optima)
   - [Autopilot](#autopilot)
   - [ClariSpend](#clarispend)
   - [Saving Bot](#saving-bot)
-  - [Infra Copilot](#infra-copilot)
-- [Supported Platforms](#supported-platforms)
-- [Prerequisites](#prerequisites)
-- [AWS Marketplace Subscription](#aws-marketplace-subscription)
-- [AWS Account Connection](#aws-account-connection)
-- [Slack Integration](#slack-integration)
-- [Product Removal](#product-removal)
+  - [FAI (Coming soon)](#fai-(coming-soon))
+- [Integrating Optima with your AWS organization](#integrating-optima-with-your-aws-organization)
+  - [Stage 0: Before we start](#stage-0-before-we-start)
+  - [Stage 1: AWS account preparations](#stage-1-aws-account-preparations)
+  - [Stage 2: AWS Marketplace Subscription](#stage-2-aws-marketplace-subscription)
+  - [Stage 3: AWS Account Connection](#stage-3-aws-account-connection)
+  - [Stage 4: Slack Integration](#stage-4-slack-integration)
+  - [Product Removal](#product-removal)
+
 
 ## Introduction
 
-Our AI-powered product - Optima - discovers unnecessary AWS cloud compute resources and eliminates them—an otherwise manual and time-intensive process that requires a continuous and inefficient use of human attention. We free up engineering teams to focus on what matters most: building the product. Optima can reduce your cloud costs by automating instance rightsizing, buying and selling of reserved instances, managing your savings plans, and shutting down unused instances intelligently. Optima acts on real-time saving opportunities and provides easy-to-access actionable notifications directly within Slack. (Support for other platforms is coming soon). In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
+Cloud optimization can be a time-consuming and resource-intensive process. Our AI-powered product - Optima - discovers unnecessary AWS spending and eliminates it. We free up your engineering team to focus on what matters most: building the product. Optima automates instance rightsizing, reserved instances trading, savings plans managing, and intelligently shutting down unused instances. Optima identifies savings opportunities in real-time and provides easy-to-access actionable notifications directly within Slack (Support for other platforms like Teams and Discord is coming soon). In addition, you will be able to manage inventories and generate visualizations and reports using our web portal.
 
 ## Pillars of Optima
 
 ### Autopilot
-
-Intelligently purchases and sells reserved instances and manages savings plans on your behalf by monitoring and forecasting your usage. Unlike AWS recommendations, Autopilot keeps track of RI transactions and updates quickly based on the latest information. Autopilot also takes both savings plans and reserved instances into account when determining the optimal action, a feature not currently available in AWS.
+Autopilot trades reserved instances and manages savings plans on your behalf by monitoring and forecasting your usage. Unlike AWS's recommendations, Autopilot actively tracks RI transactions and updates based on the most recent data. Autopilot also takes both savings plans and reserved instances into account when determining the optimal action, a feature not currently available in AWS.
 
 ### ClariSpend
-
-Provides daily billing, utilization, and savings reports with weekly trend data, grouped by accounts and services. ClariSpend also detects and highlights irregularities in your AWS usage to help you detect anomalies and react early. Through our comprehensive reporting, you will be able to understand and stay up to date on your AWS usage and how much we are saving for you.
+ClariSpend provides daily billing, utilization, and savings reports, as well as weekly trend data. The reports are grouped by accounts and services. ClariSpend also detects and highlights irregularities in your AWS usage to help you detect anomalies and react early. Through our comprehensive reporting, you will be able to understand and stay up to date on your AWS usage and how much we are saving for you.
 
 ### Saving Bot
+Saving Bot helps you shut down and rightsize EC2 instances. Saving bot monitors your EC2 instances and notifies you of under-utilized ones that eat away your cloud costs. Saving bot can be configured to automatically shut down some instances, while only acting after human confirmation on instances that are risky to shut down. Rightsizing adjusts the instance type to match the usage, without affecting or altering the instance's content.
 
-Intelligently shuts down and rightsizes EC2 instances with human supervision. Saving bot monitors your EC2 instances and notifies you of under-utilized ones that eat away your cloud costs. Saving bot can be configured to automatically shut down some instances, while only acting after human confirmation on instances that are risky to shut down. Rightsizing adjusts the instance type to match the usage, without harming or altering the instance's content.
+### FAI (Coming soon)
+A collection of AI assistants that offer capabilities beyond those of ChatGPT.
 
-### Infra Copilot (Coming soon)
+## Integrating Optima with your AWS organization
 
-A chatbot enabled by generative AI that offers capabilities beyond those of ChatGPT.
+### Stage 0: Before we start
 
-## Supported Platforms
+Have the following handy:
 
-Linux / MacOS
+1. Access to your organization's management account credentials and management console login
 
-## Prerequisites
+2. A technical member of your team to review the process (strongly recommended)
 
-1. A MacOS or Linus machine to excute the AWS connection.
-2. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed on said machine.
-3. [jq](https://stedolan.github.io/jq/download/) installed on said machine.
-4. AWS credentials of your root account set:
+3. Contact [Forma Cloud support](support@formacloud.ai) to get the following environment variables:
 
-```bash
-export AWS_ACCESS_KEY_ID=xxx
-export AWS_SECRET_ACCESS_KEY=xxx
-export AWS_SESSION_TOKEN=xxx
-```
+   ```bash
+   export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
+   export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
+   export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
+   export FORMACLOUD_EVENT_BUS_ARN=xxx  # The EventBus to receive EC2 instance events.
+   ```
 
-5. [AWS Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) enabled (recommended).
-6. Trusted access with AWS Organizations enabled (recommended):
+4. A terminal to run [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html). You can use one of the following methods:
+   * A MacOS or Linux terminal with [jq](https://stedolan.github.io/jq/download/) and [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) installed.
+   * Start [AWS CloudShell](https://aws.amazon.com/cloudshell/) from your management account.
 
-   Sign in to AWS as an administrator of the management account and open the AWS CloudFormation console at https://console.aws.amazon.com/.
-   From the navigation pane, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
+5. Please authenticate your local terminal with your management account credentials if you are not using CloudShell:
+   * [How to authenticate CLI.]("https://docs.aws.amazon.com/cli/latest/userguide/cli-authentication-user.html)
+   * You can check if you are authenticated by running the following command. If the "Account" displayed matches your management account, you are good to go.
+      ```bash
+      aws sts get-caller-identity
+      ```
+      
 
-   ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/ce841f64-3794-4dc2-b765-49d700cfff65)
 
-   Click Enable trusted access. Trusted access is successfully enabled when the following banner displays:
 
-   ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
+### Stage 1: AWS account preparations:
 
-7. [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This needs to be done using the root account in the organization management account (required).
+1. Enable [AWS Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html). 
+ 
+2. Enable trusted access with AWS Organization   
+   * Sign into AWS console as an administrator of the management account at https://console.aws.amazon.com/
+   * Open the AWS CloudFormation console. 
+      
+      ![image](assets/cloudformation.png)
+   * From the navigation pane on the left, choose StackSets. If trusted access is disabled, a banner displays that prompts you to enable trusted access.
+      
+      ![image](assets/stacksets.png) ![image](assets/trustedaccess.png)
+   
+   * Click "Enable trusted access". A success banner will show.
+      
+      ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/8b8e93f4-9004-4d98-9309-3acb64ccc4c4)
+3. [Register as a seller](https://formacloud.slab.com/posts/register-as-a-seller-account-e9jt65z4) in the Reserved Instance Marketplace. This is the only way we can sell Reserved Instances on your behalf when you don't need them. This needs to be done using the root account in the organization management account. 
 
-## AWS Marketplace Subscription
+4. Enable hourly usage data in AWS Cost Explorer. This feature greatly improves our prediction accuracy for you at a low cost. Hourly usage data costs $0.0072 per month for each EC2 instance. For example, if you have 100 EC2 instances, the monthly cost will be $0.72. You can find more details [here](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/#Data_Transfer_pricing).
 
-Subscribing on our AWS Marketplace page will complete the contracting process and allow us to begin rendering services for you.
+   * Sign into AWS console as an administrator of the management account at https://console.aws.amazon.com/.
+   * Go to Cost Explorer.
+      
+      ![image](assets/costexplorer.png)
+   * From the navigation pane on the left, go to Preferences.
+      
+      ![image](assets/costexplorer_pref.png)
+   
+   * Check "Hourly and Resource Level Data" and click Save.
+      
+      ![image](assets/hourlydata.png)
 
-Please follow this guide [Join us on AWS Marketplace](https://formacloud.slab.com/posts/join-us-on-aws-marketplace-b616x0cd) to subscribe [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/prodview-3upfi5nbbcxxw) on the AWS Marketplace.
 
-## AWS Account Connection
+## Stage 2: AWS Marketplace Subscription
 
-1. Contact FormaCloud support to get the following environment variables:
+By subscribing to our AWS Marketplace page, you complete the contracting process, allowing us to start providing services to you.
 
-```bash
-export FORMACLOUD_PRINCIPAL=xxx  # The IAM Principal that has permission to your account.
-export FORMACLOUD_ID=xxx  # The customer ID that syncs your account.
-export FORMACLOUD_EXTERNALID=xxx  # The external ID that authenticates your account.
-export FORMACLOUD_SERVICE=xxx  # The FormaCloud service type.
-export FORMACLOUD_EVENT_BUS_ARN=xxx  # The EventBus to receive EC2 instance events.
-```
+To subscribe to [Forma Cloud Cost Saving](https://aws.amazon.com/marketplace/pp/prodview-3upfi5nbbcxxw) on the AWS Marketplace, please follow this [guide](https://formacloud.slab.com/posts/join-us-on-aws-marketplace-b616x0cd).
 
-2. To connect your AWS accounts, run the following command:
+## Stage 3: AWS Account Connection
 
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/aws_connect.sh)"
-```
+1. Ready your terminal or Cloud Shell for running AWS CLI from [Stage 0](#stage-0-before-we-start).
 
-Enter a list of regions where you want to enable Optima. The first one will be used as the main region to create IAM role related resources.
-Choose whether you want to connect the whole organization.
-Choose whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts.
+2. Export environment variables you got from [Forma Cloud support(support@formacloud.ai)] from [Stage 0](#stage-0-before-we-start).
 
-Sample output:
+3. To connect your AWS accounts, run the following command. Feel free to review it first.
 
-```
-Enter a list of regions where you want to connect Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
-Do you want to connect the whole organization (Y/N)? y
-Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N) n
-Creating a Stack in us-west-2...
-...
-Creating a Stack in us-east-1...
-...
-FormaCloudOptima Stacks created!
-Creating a StackSet...
-...
-FormaCloudOptima StackSet created!
-Creating StackSet instances for the member accounts...
-...
-Waiting for the above operation to finish..................
-Operation finished:
-FormaCloudOptima StackSet instances created!
-Enabling compute optimizer for the organization...
-{
-    "status": "Active"
-}
-Connection completed.
-```
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/aws_connect.sh)"
+   ```
 
-If you already have `CloudWatch-CrossAccountSharingRole` IAM role in your accounts, please add FORMACLOUD_PRINCIPAL to the trust relationship of the role or contact FormaCloud support if you need help.
+4. The script will prompt you to enter a list of regions where you want to enable Optima. You need to type in all the regions where your accounts operate.
 
-### Enable hourly data in Cost Explorer
+5. The script will ask if you wish to connect the entire organization. If you decline, Optima will only save for your root account.
 
-To get access to hourly usage data in AWS Cost Explorer and improve our prediction accuracy, you can enable hourly data in AWS following these steps:
+6. The script will prompt you whether you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts. Check if you have this role in one of your memember accounts.
 
-- login to AWS console with billing account
-- go to Cost Explorer service
-- choose "Preferences" in the left sidebar
-- check "Hourly and Resource Level Data" box and click Save button
+Sample interaction:
 
-Hourly usage data costs $0.0072 per month for each EC2 instance. For example, if you have 100 EC2 instances, the monthly cost will be $0.72. You can find more details [here](https://aws.amazon.com/aws-cost-management/aws-cost-explorer/pricing/#Data_Transfer_pricing).
+   ```
+   Enter a list of regions where you want to connect Optima (e.g. us-west-2 us-east-1): us-west-2 us-east-1
+   Do you want to connect the whole organization (Y/N)? y
+   Do you already have CloudWatch-CrossAccountSharingRole IAM role in your accounts? (Y/N) n
+   Creating a Stack in us-west-2...
+   ...
+   Creating a Stack in us-east-1...
+   ...
+   FormaCloudOptima Stacks created!
+   Creating a StackSet...
+   ...
+   FormaCloudOptima StackSet created!
+   Creating StackSet instances for the member accounts...
+   ...
+   Waiting for the above operation to finish..................
+   Operation finished:
+   FormaCloudOptima StackSet instances created!
+   Enabling compute optimizer for the organization...
+   {
+      "status": "Active"
+   }
+   Connection completed.
+   ```
+7. If the installation fails, please uninstall it by following the 'Product Removal' section before attempting to install again. You can also contact [Forma Cloud support](support@formacloud.ai) for guidance.
 
-![image](https://github.com/forma-cloud/FormaCloud/assets/116232923/19d58c2a-1d9e-4fa9-ac24-7bceb9709fbe)
+## Stage 4: Slack Integration
 
-## Slack Integration
+1. Create two Slack channels, one for ClariSpend and another for Saving Bot. You can name them formacloud-clarispend and formacloud-saving, or choose any other names you like.
 
-1. Create two Slack channels for FormaCloud ClariSpend and Optima, such as `formacloud-clarispend` and `formacloud-optima`. The channel names don't really matter. Feel free to be creative.
-
-2. Add FormaCloud team members to the Slack channels using Slack Connect, so they can assist with any requests.
+2. To ensure that the FormaCloud team can assist with any requests, add them to the Slack channels using Slack Connect.
    Members to add:
 
-```
-shan@formacloud.io
-weiqi@formacloud.io
-jiaqi@formacloud.io
-hannah@formacloud.io
-andi@formacloud.io
-hori@formacloud.io
-```
+   ```
+   shan@formacloud.io
+   weiqi@formacloud.io
+   jiaqi@formacloud.io
+   hannah@formacloud.io
+   andi@formacloud.io
+   hori@formacloud.io
+   ```
 
-3. Visit https://slack.formacloud.io or https://api.formacloud.io/slack/install/limited_scopes link to see the installation page.
+3. Visit the [installation page](https://slack.formacloud.io).
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/4fb77907-25be-4944-8c0f-ebe5195aa836)
-4. Click "Add to slack" and click "Allow".
+
+4. Click 'Add to slack' and click 'Allow'.
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/5be17695-b114-4185-9852-3e23d877ef2a)
+
 5. After the installation, go to Apps in Slack.
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/079a3637-4f1f-4f97-bbfe-9aedf84fce57)
-6. Click on the app name on top left of this page.
+   
+6. Click on the app name on the top left of this page.
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/d0a9aa1c-dd8d-489f-9aad-d2341ecf9ab5)
+
 7. Click "Add this app to a channel" then add the two FormaCloud channels respectively.
    ![image](https://github.com/forma-cloud/FormaCloud/assets/117554189/1ba7f5a7-564b-4121-9e91-c0e8fc3a7a6c)
 
 ## Product Removal
 
-To stop Optima services, run the following command:
+1. To stop Optima services or prepare for re-install, run the following command:
 
-```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/aws_remove.sh)"
-```
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/aws_remove.sh)"
+   ```
 
-Enter a list of regions where you want to disable Optima.
-Choose whether you want to remove it for the whole organization.
+2. Enter a list of regions where you want to disable Optima; this is the same process as during installation.
+
+3. Choose whether you want to remove Optima for the entire organization; this is the same as the installation.
 
 Sample output:
 
