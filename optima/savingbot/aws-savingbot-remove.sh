@@ -26,6 +26,8 @@ function stackSetOperationWait {
   fi
 }
 
+MAIN_REGION=us-west-2
+STACK_NAME=FormaCloudSavingBot
 REGIONS=()
 FULL_ORGANIZATION=false
 
@@ -46,36 +48,33 @@ while [[ $# -gt 0 ]]; do
 done
 
 test -n "$REGIONS" || die "Invalid input: please specify a list of regions where you want to disable Optima"
-main_region=${REGIONS[0]}
-
-stack_name=FormaCloudSavingBot
 
 org_id=$(aws organizations list-roots --query "Roots[0].Id" --output text)
 
 echo "Deleting the StackSet instances for the member accounts..."
 operation_id="$(aws cloudformation delete-stack-instances \
---region ${main_region} \
---stack-set-name ${stack_name} \
+--region ${MAIN_REGION} \
+--stack-set-name ${STACK_NAME} \
 --regions ${REGIONS[*]} \
 --no-retain-stacks \
 --deployment-targets OrganizationalUnitIds=${org_id} \
 --operation-preferences RegionConcurrencyType=PARALLEL,MaxConcurrentPercentage=100,FailureTolerancePercentage=100 \
 --output text)"
-stackSetOperationWait ${main_region} ${stack_name} ${operation_id}
-echo "${stack_name} StackSet instances deleted!"
+stackSetOperationWait ${MAIN_REGION} ${STACK_NAME} ${operation_id}
+echo "${STACK_NAME} StackSet instances deleted!"
 
 echo "Deleting the StackSet..."
 aws cloudformation delete-stack-set \
---region ${main_region} \
---stack-set-name ${stack_name}
-echo "${stack_name} StackSet deleted!"
+--region ${MAIN_REGION} \
+--stack-set-name ${STACK_NAME}
+echo "${STACK_NAME} StackSet deleted!"
 
 for region in "${REGIONS[@]}"; do
   echo "Deleting the Stack in ${region}..."
   aws cloudformation delete-stack \
   --region ${region} \
-  --stack-name ${stack_name}
+  --stack-name ${STACK_NAME}
 done
-echo "${stack_name} Stacks deleted!"
+echo "${STACK_NAME} Stacks deleted!"
 
 echo "Removal completed."
