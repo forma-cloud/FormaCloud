@@ -27,13 +27,15 @@ function stackSetOperationWait {
   fi
 }
 
+STACK_NAME=FormaCloudSavingBot
+TEMPLATE_URL=https://formacloud-public.s3.us-west-2.amazonaws.com/formacloud-savingbot-latest.json
+
 FORMACLOUD_ID=""
+FORMACLOUD_PRINCIPAL=""
 FORMACLOUD_EXTERNALID=""
+MAIN_REGION=""
 REGIONS=()
-FULL_ORGANIZATION=false
 CW_ROLE_EXISTS=false
-FORMACLOUD_PRINCIPAL=872291417442
-FORMACLOUD_EVENT_BUS_ARN=arn:aws:events:us-west-2:872291417442:event-bus/savingbot-event-bus
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -41,8 +43,16 @@ while [[ $# -gt 0 ]]; do
             FORMACLOUD_ID="$2"
             shift 2
             ;;
+        -p)
+            FORMACLOUD_PRINCIPAL="$2"
+            shift 2
+            ;;
         -e)
             FORMACLOUD_EXTERNALID="$2"
+            shift 2
+            ;;
+        -m)
+            MAIN_REGION="$2"
             shift 2
             ;;
         -r)
@@ -51,10 +61,6 @@ while [[ $# -gt 0 ]]; do
                 REGIONS+=("$1")
                 shift
             done
-            ;;
-        -o)
-            FULL_ORGANIZATION=true
-            shift
             ;;
         -c)
             CW_ROLE_EXISTS=true
@@ -69,81 +75,64 @@ done
 
 test -n "$FORMACLOUD_ID" || die "FORMACLOUD_ID must be provided. Please contact FormaCloud support."
 test -n "$FORMACLOUD_EXTERNALID" || die "FORMACLOUD_EXTERNALID must be provided. Please contact FormaCloud support."
+test -n "$MAIN_REGION" || die "MAIN_REGION must be provided. Please contact FormaCloud support."
 test -n "$REGIONS" || die "REGIONS must be provided. e.g. us-west-2 us-east-1"
 
-main_region=${REGIONS[0]}
 regions_str=$(IFS=";"; echo "${REGIONS[*]}")
-formacloud_pingback_arn=arn:aws:sns:${main_region}:${FORMACLOUD_PRINCIPAL}:formacloud-pingback-topic
+formacloud_pingback_arn=arn:aws:sns:${MAIN_REGION}:${FORMACLOUD_PRINCIPAL}:formacloud-pingback-topic
+formacloud_event_bus_arn=arn:aws:events:${MAIN_REGION}:${FORMACLOUD_PRINCIPAL}:event-bus/savingbot-event-bus
 
-if $FULL_ORGANIZATION; then
-  root_account_id=$(aws organizations describe-organization | jq -r .Organization.MasterAccountId)
-else
-  root_account_id=$(aws sts get-caller-identity --query "Account" --output text)
-fi
-
-tmp_dir=$(mktemp -d)
-tmp_file="$tmp_dir"/formacloud_optima.yaml
-curl -fsSL -o "$tmp_file" https://raw.githubusercontent.com/forma-cloud/FormaCloud/main/optima/v2/formacloud_optima_v2.yaml
-
-stack_name=FormaCloudOptima
+root_account_id=$(aws sts get-caller-identity --query "Account" --output text)
+org_id=$(aws organizations list-roots --query "Roots[0].Id" --output text)
 
 for region in "${REGIONS[@]}"; do
   echo "Creating a Stack in ${region}..."
   aws cloudformation create-stack \
   --region ${region} \
-  --stack-name ${stack_name} \
+  --stack-name ${STACK_NAME} \
   --capabilities CAPABILITY_NAMED_IAM \
-  --template-body file://${tmp_file} \
+  --template-url ${TEMPLATE_URL} \
   --parameters ParameterKey=FormaCloudID,ParameterValue=${FORMACLOUD_ID} \
   ParameterKey=FormaCloudPrincipal,ParameterValue=${FORMACLOUD_PRINCIPAL} \
   ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
-  ParameterKey=FormaCloudEventBusArn,ParameterValue=${FORMACLOUD_EVENT_BUS_ARN} \
+  ParameterKey=FormaCloudEventBusArn,ParameterValue=${formacloud_event_bus_arn} \
   ParameterKey=CWCrossAccountSharingRoleExists,ParameterValue=${CW_ROLE_EXISTS} \
-  ParameterKey=MainRegion,ParameterValue=${main_region} \
+  ParameterKey=MainRegion,ParameterValue=${MAIN_REGION} \
   ParameterKey=Regions,ParameterValue=${regions_str} \
   ParameterKey=RootAccountID,ParameterValue=${root_account_id} \
   ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn}
 done
-echo "${stack_name} Stacks created!"
-
-if ! $FULL_ORGANIZATION; then
-  echo "Enabling compute optimizer..."
-  aws compute-optimizer update-enrollment-status --status Active
-  echo "Connection completed."
-  exit 0
-fi
-
-org_id=$(aws organizations list-roots | jq -r .Roots[0].Id)
+echo "${STACK_NAME} Stacks created!"
 
 echo "Creating a StackSet..."
 aws cloudformation create-stack-set \
---region ${main_region} \
---stack-set-name ${stack_name} \
+--region ${MAIN_REGION} \
+--stack-set-name ${STACK_NAME} \
 --capabilities CAPABILITY_NAMED_IAM \
 --auto-deployment Enabled=true,RetainStacksOnAccountRemoval=true \
 --permission-mode SERVICE_MANAGED \
---template-body file://${tmp_file} \
+--template-url ${TEMPLATE_URL} \
 --parameters ParameterKey=FormaCloudID,ParameterValue=${FORMACLOUD_ID} \
 ParameterKey=FormaCloudPrincipal,ParameterValue=${FORMACLOUD_PRINCIPAL} \
 ParameterKey=FormaCloudExternalID,ParameterValue=${FORMACLOUD_EXTERNALID} \
-ParameterKey=FormaCloudEventBusArn,ParameterValue=${FORMACLOUD_EVENT_BUS_ARN} \
+ParameterKey=FormaCloudEventBusArn,ParameterValue=${formacloud_event_bus_arn} \
 ParameterKey=CWCrossAccountSharingRoleExists,ParameterValue=${CW_ROLE_EXISTS} \
 ParameterKey=RootAccountID,ParameterValue=${root_account_id} \
-ParameterKey=MainRegion,ParameterValue=${main_region} \
+ParameterKey=MainRegion,ParameterValue=${MAIN_REGION} \
 ParameterKey=Regions,ParameterValue=${regions_str} \
 ParameterKey=FormaCloudPingbackArn,ParameterValue=${formacloud_pingback_arn}
-echo "${stack_name} StackSet created!"
+echo "${STACK_NAME} StackSet created!"
 
 echo "Creating StackSet instances for the member accounts..."
 operation_id="$(aws cloudformation create-stack-instances \
---region ${main_region} \
---stack-set-name ${stack_name} \
+--region ${MAIN_REGION} \
+--stack-set-name ${STACK_NAME} \
 --regions ${REGIONS[*]} \
 --deployment-targets OrganizationalUnitIds=${org_id} \
 --operation-preferences RegionConcurrencyType=PARALLEL,MaxConcurrentPercentage=100,FailureTolerancePercentage=100 \
 --output text)"
-stackSetOperationWait "$main_region" "$stack_name" "$operation_id"
-echo "${stack_name} StackSet instances created!"
+stackSetOperationWait "$MAIN_REGION" "$STACK_NAME" "$operation_id"
+echo "${STACK_NAME} StackSet instances created!"
 
 echo "Enabling compute optimizer for the organization..."
 aws compute-optimizer update-enrollment-status --status Active --include-member-accounts
