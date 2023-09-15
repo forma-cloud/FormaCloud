@@ -29,11 +29,11 @@ function stackSetOperationWait {
 
 STACK_NAME=FormaCloudSavingBot
 TEMPLATE_URL=https://formacloud-public.s3.us-west-2.amazonaws.com/formacloud-savingbot-latest.json
+MAIN_REGION=us-west-2
 
 FORMACLOUD_ID=""
 FORMACLOUD_PRINCIPAL=""
 FORMACLOUD_EXTERNALID=""
-MAIN_REGION=""
 REGIONS=()
 CW_ROLE_EXISTS=false
 
@@ -49,10 +49,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         -e)
             FORMACLOUD_EXTERNALID="$2"
-            shift 2
-            ;;
-        -m)
-            MAIN_REGION="$2"
             shift 2
             ;;
         -r)
@@ -75,7 +71,7 @@ done
 
 test -n "$FORMACLOUD_ID" || die "FORMACLOUD_ID must be provided. Please contact FormaCloud support."
 test -n "$FORMACLOUD_EXTERNALID" || die "FORMACLOUD_EXTERNALID must be provided. Please contact FormaCloud support."
-test -n "$MAIN_REGION" || die "MAIN_REGION must be provided. Please contact FormaCloud support."
+test -n "$FORMACLOUD_PRINCIPAL" || die "FORMACLOUD_PRINCIPAL must be provided. Please contact FormaCloud support."
 test -n "$REGIONS" || die "REGIONS must be provided. e.g. us-west-2 us-east-1"
 
 regions_str=$(IFS=";"; echo "${REGIONS[*]}")
@@ -137,5 +133,4 @@ echo "${STACK_NAME} StackSet instances created!"
 echo "Enabling compute optimizer for the organization..."
 aws compute-optimizer update-enrollment-status --status Active --include-member-accounts
 
-trap 'rm -rf -- "$tmp_dir"' EXIT
 echo "Connection completed."
